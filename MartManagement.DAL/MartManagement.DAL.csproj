@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="DBLayer\CatgoryDb.cs" />
     <Compile Include="DBLayer\ItemDb.cs" />
+    <Compile Include="DBLayer\PaymentTypeDb.cs" />
     <Compile Include="DBLayer\StockDb.cs" />
     <Compile Include="DBLayer\SubCategoryDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
