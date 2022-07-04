@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MartManagement.BLL.Repositories
 {
@@ -19,6 +20,11 @@ namespace MartManagement.BLL.Repositories
         public void DeleteModel(int modelID)
         {
             dbObj.DeleteModel(modelID);
+        }
+
+        public IEnumerable<SelectListItem> GetAllPaymentType()
+        {
+            return dbObj.GetAllPaymentType();
         }
 
         public IEnumerable<PaymentType> GetModel()

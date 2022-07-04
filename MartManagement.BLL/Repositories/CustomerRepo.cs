@@ -10,11 +10,11 @@ namespace MartManagement.BLL.Repositories
 {
     public class CustomerRepo
     {
-        private CustomerDb<Customer> dbObj;
+        private CustomerDb dbObj;
 
         public CustomerRepo()
         {
-            dbObj = new CustomerDb<Customer>();
+            dbObj = new CustomerDb();
         }
         public void DeleteModel(int modelID)
         {
@@ -31,9 +31,9 @@ namespace MartManagement.BLL.Repositories
             return dbObj.GetModelByID(modelId);
         }
 
-        public void InsertModel(Customer model)
+        public int InsertModel(Customer model)
         {
-            dbObj.InsertModel(model);
+           return dbObj.InsertModel(model);
         }
 
         public void UpdateModel(Customer model)

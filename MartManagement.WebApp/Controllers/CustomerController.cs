@@ -34,9 +34,17 @@ namespace MartManagement.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepoObj.InsertModel(customer);
-                    TempData["SuccessMsg"] = "Customer Added Successfully!";
-                    return RedirectToAction("List");
+                    var val= RepoObj.InsertModel(customer);
+                    if (val > 0)
+                    {
+                        TempData["SuccessMsg"] = "Customer Added Successfully!";
+                        return RedirectToAction("List");
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Error occured on creating customer!";
+                        return RedirectToAction("Create");
+                    }
                 }
                 else
                 {

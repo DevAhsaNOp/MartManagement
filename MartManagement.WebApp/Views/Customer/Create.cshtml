@@ -4,10 +4,17 @@
     ViewBag.Title = "Add Customer";
 }
 <style>
-    label{
-       text-align:left !important;
+    label {
+        text-align: left !important;
     }
 </style>
+@if (TempData["ErrorMsg"] != null)
+{
+    <br />
+    <div class="alert alert-dismissable alert-danger">
+        @TempData["ErrorMsg"].ToString() <p class="pull-right">&times;</p>
+    </div>
+}
 <h2>Add Customer</h2>
 
 

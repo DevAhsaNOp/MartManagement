@@ -22,7 +22,6 @@ namespace MartManagement.BOL
         public Nullable<decimal> OrderDetail_Discount { get; set; }
         public decimal OrderDetail_FinalTotal { get; set; }
     
-        public virtual Item Item { get; set; }
         public virtual Order Order { get; set; }
     }
 }

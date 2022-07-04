@@ -11,42 +11,24 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Item
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.OrderDetails = new HashSet<OrderDetail>();
             this.Stocks = new HashSet<Stock>();
             this.Transactions = new HashSet<Transaction>();
         }
     
         public int Item_Id { get; set; }
         public Nullable<int> SubCategory_Id { get; set; }
-
-        [Required(ErrorMessage ="*")]
-        [Display(Name ="Item Name")]
         public string Item_Name { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Item Buy Price")]
-        [Range(1,Int32.MaxValue)]
         public int Item_BuyPrice { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Item Stock")]
-        [Range(1, Int32.MaxValue)]
         public int Item_Stock { get; set; }
-
-
-        [Display(Name = "Item Total Price")]
         public decimal Item_TotalPrice { get; set; }
     
         public virtual SubCategory SubCategory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

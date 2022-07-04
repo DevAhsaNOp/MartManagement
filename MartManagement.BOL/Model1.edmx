@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="martmanagement_DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="martmanagement_DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_Id" />
@@ -114,18 +114,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Item___36B12243">
-          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Item_Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__OrderDeta__Order__35BCFE0A">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
@@ -135,30 +123,6 @@
             </Principal>
             <Dependent Role="OrderDetail">
               <PropertyRef Name="Order_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Orders__Customer__32E0915F">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Customer_Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="Customer_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Orders__PaymentT__31EC6D26">
-          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentType">
-              <PropertyRef Name="PaymentType_Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="PaymentType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -210,18 +174,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__Payme__398D8EEE">
-          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
-          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentType">
-              <PropertyRef Name="PaymentType_Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="PaymentType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="martmanagement_DbModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -237,21 +189,9 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
             <End Role="Item" EntitySet="Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Item___36B12243" Association="Self.FK__OrderDeta__Item___36B12243">
-            <End Role="Item" EntitySet="Item" />
-            <End Role="OrderDetail" EntitySet="OrderDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK__OrderDeta__Order__35BCFE0A" Association="Self.FK__OrderDeta__Order__35BCFE0A">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Orders__Customer__32E0915F" Association="Self.FK__Orders__Customer__32E0915F">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Orders__PaymentT__31EC6D26" Association="Self.FK__Orders__PaymentT__31EC6D26">
-            <End Role="PaymentType" EntitySet="PaymentType" />
-            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK__Stock__Item_Id__2B3F6F97" Association="Self.FK__Stock__Item_Id__2B3F6F97">
             <End Role="Item" EntitySet="Item" />
@@ -269,13 +209,8 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Payme__398D8EEE" Association="Self.FK__Transacti__Payme__398D8EEE">
-            <End Role="PaymentType" EntitySet="PaymentType" />
-            <End Role="Transactions" EntitySet="Transactions" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="martmanagement_DbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -295,7 +230,6 @@
           <Property Name="Customer_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Customer_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Customer_PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__32E0915F" FromRole="Customer" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -308,7 +242,6 @@
           <Property Name="Item_Stock" Type="Int32" Nullable="false" />
           <Property Name="Item_TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="SubCategory" Relationship="Self.FK__Item__SubCategor__286302EC" FromRole="Item" ToRole="SubCategory" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Item___36B12243" FromRole="Item" ToRole="OrderDetail" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__Item_Id__2B3F6F97" FromRole="Item" ToRole="Stock" />
           <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Item___3A81B327" FromRole="Item" ToRole="Transactions" />
         </EntityType>
@@ -323,7 +256,6 @@
           <Property Name="OrderDetail_Quantity" Type="Int32" Nullable="false" />
           <Property Name="OrderDetail_Discount" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="OrderDetail_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.FK__OrderDeta__Item___36B12243" FromRole="OrderDetail" ToRole="Item" />
           <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__35BCFE0A" FromRole="OrderDetail" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Order">
@@ -336,9 +268,7 @@
           <Property Name="Order_Number" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Order_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK__Orders__Customer__32E0915F" FromRole="Orders" ToRole="Customer" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__35BCFE0A" FromRole="Orders" ToRole="OrderDetail" />
-          <NavigationProperty Name="PaymentType" Relationship="Self.FK__Orders__PaymentT__31EC6D26" FromRole="Orders" ToRole="PaymentType" />
           <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Order__3B75D760" FromRole="Orders" ToRole="Transactions" />
         </EntityType>
         <EntityType Name="PaymentType">
@@ -347,8 +277,6 @@
           </Key>
           <Property Name="PaymentType_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaymentType_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__PaymentT__31EC6D26" FromRole="PaymentType" ToRole="Orders" />
-          <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Payme__398D8EEE" FromRole="PaymentType" ToRole="Transactions" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -394,7 +322,6 @@
           <Property Name="Transaction_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__Transacti__Item___3A81B327" FromRole="Transactions" ToRole="Item" />
           <NavigationProperty Name="Order" Relationship="Self.FK__Transacti__Order__3B75D760" FromRole="Transactions" ToRole="Orders" />
-          <NavigationProperty Name="PaymentType" Relationship="Self.FK__Transacti__Payme__398D8EEE" FromRole="Transactions" ToRole="PaymentType" />
         </EntityType>
         <Association Name="FK__SubCatego__Categ__25869641">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
@@ -408,18 +335,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__Customer__32E0915F">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Customer_Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="Customer_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Item__SubCategor__286302EC">
           <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1" />
           <End Role="Item" Type="Self.Item" Multiplicity="*" />
@@ -429,18 +344,6 @@
             </Principal>
             <Dependent Role="Item">
               <PropertyRef Name="SubCategory_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OrderDeta__Item___36B12243">
-          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Item_Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="Item_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -480,18 +383,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__PaymentT__31EC6D26">
-          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentType">
-              <PropertyRef Name="PaymentType_Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="PaymentType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Transacti__Order__3B75D760">
           <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
           <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
@@ -501,18 +392,6 @@
             </Principal>
             <Dependent Role="Transactions">
               <PropertyRef Name="Order_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Transacti__Payme__398D8EEE">
-          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
-          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentType">
-              <PropertyRef Name="PaymentType_Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="PaymentType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -531,17 +410,9 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__Customer__32E0915F" Association="Self.FK__Orders__Customer__32E0915F">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK__Item__SubCategor__286302EC" Association="Self.FK__Item__SubCategor__286302EC">
             <End Role="SubCategory" EntitySet="SubCategories" />
             <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Item___36B12243" Association="Self.FK__OrderDeta__Item___36B12243">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK__Stock__Item_Id__2B3F6F97" Association="Self.FK__Stock__Item_Id__2B3F6F97">
             <End Role="Item" EntitySet="Items" />
@@ -555,16 +426,8 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__PaymentT__31EC6D26" Association="Self.FK__Orders__PaymentT__31EC6D26">
-            <End Role="PaymentType" EntitySet="PaymentTypes" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK__Transacti__Order__3B75D760" Association="Self.FK__Transacti__Order__3B75D760">
             <End Role="Orders" EntitySet="Orders" />
-            <End Role="Transactions" EntitySet="Transactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Payme__398D8EEE" Association="Self.FK__Transacti__Payme__398D8EEE">
-            <End Role="PaymentType" EntitySet="PaymentTypes" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>

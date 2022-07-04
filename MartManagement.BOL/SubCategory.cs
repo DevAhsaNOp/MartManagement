@@ -11,8 +11,7 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class SubCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,17 +19,10 @@ namespace MartManagement.BOL
         {
             this.Items = new HashSet<Item>();
         }
-
+    
         public int SubCategory_Id { get; set; }
-
         public Nullable<int> Category_Id { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "SubCategory Name")]
         public string SubCategory_Name { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "SubCategory Description")]
         public string SubCategory_Description { get; set; }
     
         public virtual Category Category { get; set; }

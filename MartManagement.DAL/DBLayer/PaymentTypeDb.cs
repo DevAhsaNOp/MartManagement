@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MartManagement.DAL.DBLayer
 {
@@ -25,6 +26,19 @@ namespace MartManagement.DAL.DBLayer
             PayementType model = dbEntity.Find(modelID);
             dbEntity.Remove(model);
             Save();
+        }
+
+        public IEnumerable<SelectListItem> GetAllPaymentType()
+        {
+            var result = new List<SelectListItem>();
+            result = (from obj in _context.PaymentTypes
+                      select new SelectListItem()
+                      {
+                          Text = obj.PaymentType_Name,
+                          Value = obj.PaymentType_Id.ToString(),
+                          Selected = false
+                      }).ToList();
+            return result;
         }
 
         public IEnumerable<PayementType> GetModel()

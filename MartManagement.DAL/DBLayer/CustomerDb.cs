@@ -8,38 +8,36 @@ using System.Threading.Tasks;
 
 namespace MartManagement.DAL.DBLayer
 {
-    public class CustomerDb<Customer> : _IAllRepository<Customer> where Customer : class
+    public class CustomerDb
     {
-        //connection string...... 
         private martmanagement_DbEntities _context;
-        private IDbSet<Customer> dbEntity;
         public CustomerDb()
         {
             _context = new martmanagement_DbEntities();
-            dbEntity = _context.Set<Customer>();
         }
 
         public void DeleteModel(int modelID)
         {
-            Customer model = dbEntity.Find(modelID);
-            dbEntity.Remove(model);
+            Customer model = _context.Customers.Find(modelID);
+            _context.Customers.Remove(model);
             Save();
         }
 
         public IEnumerable<Customer> GetModel()
         {
-            return dbEntity.ToList();
+            return  _context.Customers.ToList();
         }
 
         public Customer GetModelByID(int modelId)
         {
-            return dbEntity.Find(modelId);
+            return  _context.Customers.Find(modelId);
         }
 
-        public void InsertModel(Customer model)
+        public int InsertModel(Customer model)
         {
-            dbEntity.Add(model);
+             _context.Customers.Add(model);
             Save();
+            return model.Customer_Id;
         }
 
         public void Save()

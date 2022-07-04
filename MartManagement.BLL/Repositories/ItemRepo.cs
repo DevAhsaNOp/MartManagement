@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MartManagement.BLL.Repositories
 {
@@ -24,6 +25,11 @@ namespace MartManagement.BLL.Repositories
         public IEnumerable<Item> GetModel()
         {
             return dbObj.GetModel();
+        }
+
+        public IEnumerable<SelectListItem> GetAllItems()
+        {
+            return dbObj.GetAllItems();
         }
 
         public Item GetModelByID(int modelId)

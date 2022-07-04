@@ -11,27 +11,11 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Customer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
-        {
-            this.Orders = new HashSet<Order>();
-        }
-    
         public int Customer_Id { get; set; }
-
-        [Required(ErrorMessage ="*")]
-        [Display(Name ="Customer Name")]
         public string Customer_Name { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Phone Number")]
         public string Customer_PhoneNumber { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }

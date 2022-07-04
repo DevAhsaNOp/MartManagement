@@ -23,6 +23,5 @@ namespace MartManagement.BOL
     
         public virtual Item Item { get; set; }
         public virtual Order Order { get; set; }
-        public virtual PaymentType PaymentType { get; set; }
     }
 }

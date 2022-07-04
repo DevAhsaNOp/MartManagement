@@ -16,15 +16,11 @@
         <EntityTypeShape EntityType="martmanagement_DbModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="martmanagement_DbModel.Transaction" Width="1.5" PointX="8.25" PointY="3.25" IsExpanded="true" />
         <AssociationConnector Association="martmanagement_DbModel.FK__SubCatego__Categ__25869641" ManuallyRouted="false" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Orders__Customer__32E0915F" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Item__SubCategor__286302EC" ManuallyRouted="false" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Item___36B12243" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Stock__Item_Id__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Item___3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Order__35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Orders__PaymentT__31EC6D26" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Order__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Payme__398D8EEE" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
