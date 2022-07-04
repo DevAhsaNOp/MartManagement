@@ -1,0 +1,37 @@
+﻿@model MartManagement.BOL.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    dt{
+        text-align:left !important;
+    }
+</style>
+<h2>Details @ViewBag.CustomerName Customer Record</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_PhoneNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Customer_Id }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

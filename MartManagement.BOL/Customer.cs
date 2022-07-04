@@ -11,7 +11,8 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +22,13 @@ namespace MartManagement.BOL
         }
     
         public int Customer_Id { get; set; }
+
+        [Required(ErrorMessage ="*")]
+        [Display(Name ="Customer Name")]
         public string Customer_Name { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Phone Number")]
         public string Customer_PhoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

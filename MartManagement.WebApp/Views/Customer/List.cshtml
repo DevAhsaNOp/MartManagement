@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MartManagement.BOL.Customer>
+
+@{
+    ViewBag.Title = "List";
+}
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <br />
+    <div class="alert alert-dismissable alert-success">
+        @TempData["SuccessMsg"].ToString() <p class="pull-right">&times;</p>
+    </div>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <br />
+    <div class="alert alert-dismissable alert-danger">
+        @TempData["ErrorMsg"].ToString() <p class="pull-right">&times;</p>
+    </div>
+}
+<h2>Customer List</h2>
+<p>
+    @Html.ActionLink("Create Item", "Create", null, htmlAttributes: new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer_PhoneNumber)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Customer_Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Customer_Id })
+            </td>
+        </tr>
+    }
+
+</table>
