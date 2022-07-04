@@ -98,7 +98,6 @@
           <Property Name="Transaction_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PaymentType_Id" Type="int" />
           <Property Name="Item_Id" Type="int" />
-          <Property Name="Order_Id" Type="int" />
           <Property Name="Transaction_Date" Type="date" Nullable="false" />
           <Property Name="Transaction_FinalTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
@@ -162,18 +161,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__Order__3B75D760">
-          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
-          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Order_Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="Order_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="martmanagement_DbModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -203,10 +190,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Transacti__Item___3A81B327" Association="Self.FK__Transacti__Item___3A81B327">
             <End Role="Item" EntitySet="Item" />
-            <End Role="Transactions" EntitySet="Transactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Order__3B75D760" Association="Self.FK__Transacti__Order__3B75D760">
-            <End Role="Orders" EntitySet="Orders" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>
@@ -269,7 +252,6 @@
           <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Order_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__35BCFE0A" FromRole="Orders" ToRole="OrderDetail" />
-          <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Order__3B75D760" FromRole="Orders" ToRole="Transactions" />
         </EntityType>
         <EntityType Name="PaymentType">
           <Key>
@@ -317,11 +299,9 @@
           <Property Name="Transaction_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaymentType_Id" Type="Int32" />
           <Property Name="Item_Id" Type="Int32" />
-          <Property Name="Order_Id" Type="Int32" />
           <Property Name="Transaction_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Transaction_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__Transacti__Item___3A81B327" FromRole="Transactions" ToRole="Item" />
-          <NavigationProperty Name="Order" Relationship="Self.FK__Transacti__Order__3B75D760" FromRole="Transactions" ToRole="Orders" />
         </EntityType>
         <Association Name="FK__SubCatego__Categ__25869641">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
@@ -383,18 +363,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__Order__3B75D760">
-          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Order_Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="Order_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="martmanagement_DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
@@ -425,10 +393,6 @@
           <AssociationSet Name="FK__OrderDeta__Order__35BCFE0A" Association="Self.FK__OrderDeta__Order__35BCFE0A">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Order__3B75D760" Association="Self.FK__Transacti__Order__3B75D760">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -538,7 +502,6 @@
                 <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
                 <ScalarProperty Name="PaymentType_Id" ColumnName="PaymentType_Id" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
                 <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
                 <ScalarProperty Name="Transaction_FinalTotal" ColumnName="Transaction_FinalTotal" />
               </MappingFragment>

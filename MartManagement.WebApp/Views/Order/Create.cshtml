@@ -56,10 +56,10 @@
         $("#tblRestaurantItemList").find("tr:gt(0)").each(function () {
             var OrderDetails = {};
             OrderDetails.Item_Id = $(this).find("td:eq(0)").text();
-            OrderDetails.OrderDetail_Quantity = $(this).find("td:eq(3)").text();
-            OrderDetails.OrderDetail_FinalTotal = $(this).find("td:eq(5)").text();
-            OrderDetails.OrderDetail_Discount = $(this).find("td:eq(4)").text();
             OrderDetails.OrderDetail_UnitPrice = $(this).find("td:eq(2)").text();
+            OrderDetails.OrderDetail_Quantity = $(this).find("td:eq(3)").text();
+            OrderDetails.OrderDetail_Discount = $(this).find("td:eq(4)").text();
+            OrderDetails.OrderDetail_FinalTotal = $(this).find("td:eq(5)").text();
             ListOrderDetailViewModel.push(OrderDetails);
         });
         objOrderViewModel.OrderDetails = ListOrderDetailViewModel;

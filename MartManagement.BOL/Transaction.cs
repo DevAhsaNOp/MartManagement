@@ -17,11 +17,9 @@ namespace MartManagement.BOL
         public int Transaction_Id { get; set; }
         public Nullable<int> PaymentType_Id { get; set; }
         public Nullable<int> Item_Id { get; set; }
-        public Nullable<int> Order_Id { get; set; }
         public System.DateTime Transaction_Date { get; set; }
         public decimal Transaction_FinalTotal { get; set; }
     
         public virtual Item Item { get; set; }
-        public virtual Order Order { get; set; }
     }
 }

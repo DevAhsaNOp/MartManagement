@@ -44,6 +44,10 @@ namespace MartManagement.WebApp.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public JsonResult Create(Order objOrderViewModel, Customer objCustomerViewModel)
         {
+            objOrderViewModel.Customer_Id = 3;
+            objCustomerViewModel.Customer_Id = 3;
+            objCustomerViewModel.Customer_Name = "Naeem";
+            objCustomerViewModel.Customer_Name = "0311280375";
             bool isStatus = RepoObj.InsertModel(objOrderViewModel, objCustomerViewModel);
             string SuccessMessage = String.Empty;
 

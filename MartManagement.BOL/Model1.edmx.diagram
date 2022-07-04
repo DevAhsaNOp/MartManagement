@@ -20,7 +20,6 @@
         <AssociationConnector Association="martmanagement_DbModel.FK__Stock__Item_Id__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Item___3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Order__35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Order__3B75D760" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

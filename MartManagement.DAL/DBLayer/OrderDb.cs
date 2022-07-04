@@ -58,7 +58,7 @@ namespace MartManagement.DAL.DBLayer
                         OrderDetail_Discount = item.OrderDetail_Discount,
                         Item_Id = item.Item_Id,
                         OrderDetail_Quantity = item.OrderDetail_Quantity,
-                        Order_Id = item.Order_Id,
+                        Order_Id = OrderId,
                         OrderDetail_FinalTotal = item.OrderDetail_FinalTotal,
                         OrderDetail_UnitPrice = item.OrderDetail_UnitPrice
                     };
@@ -71,7 +71,6 @@ namespace MartManagement.DAL.DBLayer
                         PaymentType_Id = orderViewModel.PaymentType_Id,
                         Transaction_Date = orderViewModel.Order_Date,
                         Transaction_FinalTotal = orderViewModel.Order_FinalTotal,
-                        Order_Id = OrderId
                     };
                     _context.Transactions.Add(objTransaction);
                     _context.SaveChanges();
