@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {
-    [Authorize]
     public class OrderController : Controller
     {
         private OrderRepo RepoObj;
@@ -62,6 +61,7 @@ namespace MartManagement.WebApp.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Details(int id)
         {
+            ViewBag.Discount = _context.OrderDetails.Where(x => x.Order_Id == id).Sum(x => x.OrderDetail_Discount);
             ViewBag.OrderNumber = RepoObj.GetModelByID(id).Order_Number;
             return View(RepoObj.GetModelByID(id));
         }

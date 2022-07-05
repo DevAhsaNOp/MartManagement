@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {
-    [Authorize]
     public class StockController : Controller
     {
         private StockRepo RepoObj;
@@ -36,17 +35,15 @@ namespace MartManagement.WebApp.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(Stock stock)
         {
-            var quant = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_Stock;
             var ItemData = RepoObj1.GetModelByID(stock.Item_Id.GetValueOrDefault());
-            var Price = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_BuyPrice;
             try
             {
-                if (stock.Stock_Quantity < quant && stock.Stock_RetailPrice > Price)
+                if (stock.Stock_Quantity < ItemData.Item_Stock && stock.Stock_RetailPrice > ItemData.Item_BuyPrice)
                 {
                     if (ModelState.IsValid)
                     {
                         RepoObj.InsertModel(stock);
-                        ItemData.Item_Stock -= stock.Stock_Quantity;                         
+                        ItemData.Item_Stock -= stock.Stock_Quantity;
                         RepoObj1.UpdateModel(ItemData);
                         TempData["SuccessMsg"] = "Stock Added Successfully!";
                         return RedirectToAction("List");
@@ -56,14 +53,14 @@ namespace MartManagement.WebApp.Controllers
                         return View();
                     }
                 }
-                else if (stock.Stock_RetailPrice < Price)
+                else if (stock.Stock_RetailPrice < ItemData.Item_BuyPrice)
                 {
                     TempData["ErrorMsg"] = "Item Retail price should be greater than buy price";
                     return RedirectToAction("Create");
                 }
                 else
                 {
-                    TempData["ErrorMsg"] = "Stock Not Avalaible" ;
+                    TempData["ErrorMsg"] = "Stock Not Avalaible";
                     return RedirectToAction("Create");
                 }
             }
@@ -86,18 +83,28 @@ namespace MartManagement.WebApp.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(Stock stock)
         {
+            var StockData = RepoObj.GetModelByID(stock.Stock_Id).Stock_Quantity;
             var ItemData = RepoObj1.GetModelByID(stock.Item_Id.GetValueOrDefault());
-            var quant = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_Stock;
-            var Price = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_BuyPrice;
+            var StockQuantityData = stock.Stock_Quantity - StockData;
             try
             {
-                if (stock.Stock_Quantity < quant && stock.Stock_RetailPrice > Price)
+                if ((stock.Stock_Quantity < ItemData.Item_Stock && stock.Stock_RetailPrice > ItemData.Item_BuyPrice) ||
+                    (stock.Stock_Quantity <= StockData && stock.Stock_RetailPrice > ItemData.Item_BuyPrice) ||
+                    (StockQuantityData <= ItemData.Item_Stock && stock.Stock_RetailPrice > ItemData.Item_BuyPrice))
                 {
                     if (ModelState.IsValid)
                     {
                         RepoObj.UpdateModel(stock);
-                        ItemData.Item_Stock -= stock.Stock_Quantity;
-                        RepoObj1.UpdateModel(ItemData);
+                        if (stock.Stock_Quantity < StockData)
+                        {
+                            ItemData.Item_Stock = ItemData.Item_Stock + (StockData - stock.Stock_Quantity);
+                            RepoObj1.UpdateModel(ItemData);
+                        }
+                        else if (StockQuantityData <= ItemData.Item_Stock && StockQuantityData > 0)
+                        {
+                            ItemData.Item_Stock -= StockQuantityData;
+                            RepoObj1.UpdateModel(ItemData);
+                        }
                         TempData["SuccessMsg"] = "Stock Updated Successfully!";
                         return RedirectToAction("List");
                     }
@@ -106,7 +113,7 @@ namespace MartManagement.WebApp.Controllers
                         return View();
                     }
                 }
-                else if (stock.Stock_RetailPrice < Price)
+                else if (stock.Stock_RetailPrice < ItemData.Item_BuyPrice)
                 {
                     TempData["ErrorMsg"] = "Item Retail price should be greater than buy price";
                     return RedirectToAction("Edit");

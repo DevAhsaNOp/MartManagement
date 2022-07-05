@@ -30,15 +30,15 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Category" class="btn btn-primary" />
+                <input type="submit" value="Add Category" class="btn btn-primary btn-sm" />
             </div>
         </div>
     </div>
 }
 
-@*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
+<div>
+    @Html.ActionLink("Back to List", "List", null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jquery")

@@ -30,7 +30,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Customer_PhoneNumber)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
     @foreach (var item in Model)
@@ -43,8 +43,8 @@
                 @Html.DisplayFor(modelItem => item.Customer_PhoneNumber)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Customer_Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Customer_Id })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Customer_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                @Html.ActionLink("Details", "Details", new { id = item.Customer_Id }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
             </td>
         </tr>
     }

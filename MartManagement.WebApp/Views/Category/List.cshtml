@@ -21,7 +21,7 @@
 <p>
     @Html.ActionLink("Create Category", "Create", null, htmlAttributes: new { @class = "btn btn-primary" })
 </p>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped ">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Category_Name)
@@ -29,7 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Category_Description)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
     @foreach (var item in Model)
     {
@@ -41,8 +41,8 @@
                 @Html.DisplayFor(modelItem => item.Category_Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Category_Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Category_Id })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Category_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                @Html.ActionLink("Details", "Details", new { id = item.Category_Id }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
             </td>
         </tr>
     }

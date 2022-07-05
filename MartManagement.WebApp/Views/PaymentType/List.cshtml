@@ -27,7 +27,7 @@
         <th>
             @Html.DisplayNameFor(model => model.PaymentType_Name)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -36,8 +36,8 @@
             @Html.DisplayFor(modelItem => item.PaymentType_Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PaymentType_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PaymentType_Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.PaymentType_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PaymentType_Id }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
         </td>
     </tr>
 }

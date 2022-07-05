@@ -33,7 +33,7 @@
         <th>
             @Html.DisplayNameFor(model => model.SubCategory_Description)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -48,8 +48,8 @@
             @Html.DisplayFor(modelItem => item.SubCategory_Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SubCategory_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SubCategory_Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.SubCategory_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" }) 
+            @Html.ActionLink("Details", "Details", new { id=item.SubCategory_Id }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
         </td>
     </tr>
 }

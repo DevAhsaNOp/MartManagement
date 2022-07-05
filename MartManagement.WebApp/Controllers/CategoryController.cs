@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {
-    [Authorize]
     public class CategoryController : Controller
     {
         private CategoryRepo RepoObj;

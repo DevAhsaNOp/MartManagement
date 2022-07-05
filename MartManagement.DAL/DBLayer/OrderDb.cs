@@ -68,6 +68,7 @@ namespace MartManagement.DAL.DBLayer
                     stockObj.UpdateModel(stockData);
                     i++;
                 }
+
                 Transaction objTransaction = new Transaction()
                 {
                     PaymentType_Id = orderViewModel.PaymentType_Id,

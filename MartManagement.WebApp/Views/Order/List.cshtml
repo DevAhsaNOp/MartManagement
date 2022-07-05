@@ -26,7 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Order_FinalTotal)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -47,9 +47,7 @@
             @Html.DisplayFor(modelItem => item.Order_FinalTotal)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Order_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Order_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Order_Id })
+            @Html.ActionLink("Details", "Details", new { id=item.Order_Id }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
         </td>
     </tr>
 }

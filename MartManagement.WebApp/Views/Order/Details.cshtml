@@ -4,8 +4,8 @@
     ViewBag.Title = "Details";
 }
 <style>
-    dt{
-        text-align:left !important;
+    dt {
+        text-align: left !important;
     }
 </style>
 
@@ -15,7 +15,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.Customer_Name)
+            @Html.DisplayNameFor(model => model.Customer.Customer_Name):
         </dt>
 
         <dd>
@@ -23,7 +23,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.Customer_PhoneNumber)
+            @Html.DisplayNameFor(model => model.Customer.Customer_PhoneNumber):
         </dt>
 
         <dd>
@@ -31,7 +31,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Order_Number)
+            @Html.DisplayNameFor(model => model.Order_Number):
         </dt>
 
         <dd>
@@ -39,15 +39,23 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Order_Date)
+            @Html.DisplayNameFor(model => model.Order_Date):
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Order_Date)
         </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentType.PaymentType_Name):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentType.PaymentType_Name)
+        </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Order_FinalTotal)
+            @Html.DisplayNameFor(model => model.Order_FinalTotal):
         </dt>
 
         <dd>
@@ -57,7 +65,7 @@
     </dl>
 </div>
 <h3 style="text-align:center !important;color:white !important;">
-   Order Information by <b>Item</b>
+    Order Information by <b>Item</b>
 </h3>
 <table class="table table-bordered table-condensed" style="background: #8baeed !important;">
     <tr>
@@ -95,9 +103,40 @@
                 </td>
             </tr>
         }
+        <tr>
+            <td colspan="3">
+               <b>
+                    Total:
+               </b>
+            </td>
+            <td>
+                <b>
+                    Discount:
+                </b>
+            </td>
+            <td>
+                <b>
+                    Payable Amount:
+                </b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="border-top: 2px solid #000;">
+            </td>
+            <td style="border-top: 2px solid #000;">
+                <b>
+                    @ViewBag.Discount
+                </b>
+            </td>
+            <td style="border-top: 2px solid #000;">
+                <b>
+                    @Html.DisplayFor(modelItem => modelItem.Order_FinalTotal)
+                </b>
+            </td>
+        </tr>
     }
 </table>
 
 <p>
-    @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Back to List", "List",null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
 </p>

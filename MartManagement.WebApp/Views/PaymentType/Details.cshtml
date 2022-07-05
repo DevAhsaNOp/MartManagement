@@ -20,6 +20,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PaymentType_Id }) |
-    @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PaymentType_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" }) 
+    @Html.ActionLink("Back to List", "List", null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
 </p>

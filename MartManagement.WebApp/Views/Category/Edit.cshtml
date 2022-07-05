@@ -34,13 +34,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save Category" class="btn btn-primary" />
+                <input type="submit" value="Save Category" class="btn btn-success btn-sm" />
             </div>
         </div>
     </div>
 }
 <p>
-    @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Back to List", "List",null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
 </p>
 
 @section Scripts {
