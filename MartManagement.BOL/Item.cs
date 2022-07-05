@@ -20,7 +20,6 @@ namespace MartManagement.BOL
         {
             this.Stocks = new HashSet<Stock>();
             this.OrderDetails = new HashSet<OrderDetail>();
-            this.Transactions = new HashSet<Transaction>();
         }
     
         public int Item_Id { get; set; }
@@ -41,13 +40,11 @@ namespace MartManagement.BOL
         [Required(ErrorMessage = "*")]
         [Display(Name = "Total Price")]
         public decimal Item_TotalPrice { get; set; }
-    
+
         public virtual SubCategory SubCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

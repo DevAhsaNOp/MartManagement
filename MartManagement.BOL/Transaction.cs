@@ -16,29 +16,18 @@ namespace MartManagement.BOL
     public partial class Transaction
     {
         public int Transaction_Id { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Payment Method Id")]
         public Nullable<int> PaymentType_Id { get; set; }
-
+ 
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Item Id")]
-        public Nullable<int> Item_Id { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Order Detail Id")]
-        public Nullable<int> OrderDetail_Id { get; set; }
-
-        [Required(ErrorMessage = "*")]
-        [Display(Name = "Order Date")]
+        [Display(Name = "Transaction Date")]
         public System.DateTime Transaction_Date { get; set; }
 
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Final Total")]
+        [Display(Name = "Transaction Final Total")]
         public decimal Transaction_FinalTotal { get; set; }
+        public Nullable<int> Order_Id { get; set; }
     
-        public virtual Item Item { get; set; }
-        public virtual OrderDetail OrderDetail { get; set; }
+        public virtual Order Order { get; set; }
         public virtual PaymentType PaymentType { get; set; }
     }
 }

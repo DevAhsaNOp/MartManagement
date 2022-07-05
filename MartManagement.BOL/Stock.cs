@@ -17,7 +17,7 @@ namespace MartManagement.BOL
     {
         public int Stock_Id { get; set; }
         public Nullable<int> Item_Id { get; set; }
-
+        
         [Required(ErrorMessage = "*")]
         [Display(Name = "Stock Quantity")]
         public int Stock_Quantity { get; set; }
@@ -29,7 +29,7 @@ namespace MartManagement.BOL
         [Required(ErrorMessage = "*")]
         [Display(Name = "Total Price")]
         public decimal Stock_TotalPrice { get; set; }
-    
+
         public virtual Item Item { get; set; }
     }
 }

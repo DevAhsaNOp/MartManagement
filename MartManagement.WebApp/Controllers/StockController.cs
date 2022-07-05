@@ -12,10 +12,12 @@ namespace MartManagement.WebApp.Controllers
     public class StockController : Controller
     {
         private StockRepo RepoObj;
+        private ItemRepo RepoObj1;
         private martmanagement_DbEntities _context;
         public StockController()
         {
             RepoObj = new StockRepo();
+            RepoObj1 = new ItemRepo();
             _context = new martmanagement_DbEntities();
         }
 
@@ -35,6 +37,7 @@ namespace MartManagement.WebApp.Controllers
         public ActionResult Create(Stock stock)
         {
             var quant = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_Stock;
+            var ItemData = RepoObj1.GetModelByID(stock.Item_Id.GetValueOrDefault());
             var Price = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_BuyPrice;
             try
             {
@@ -43,6 +46,8 @@ namespace MartManagement.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         RepoObj.InsertModel(stock);
+                        ItemData.Item_Stock -= stock.Stock_Quantity;                         
+                        RepoObj1.UpdateModel(ItemData);
                         TempData["SuccessMsg"] = "Stock Added Successfully!";
                         return RedirectToAction("List");
                     }
@@ -81,6 +86,7 @@ namespace MartManagement.WebApp.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(Stock stock)
         {
+            var ItemData = RepoObj1.GetModelByID(stock.Item_Id.GetValueOrDefault());
             var quant = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_Stock;
             var Price = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault()).Item.Item_BuyPrice;
             try
@@ -90,6 +96,8 @@ namespace MartManagement.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         RepoObj.UpdateModel(stock);
+                        ItemData.Item_Stock -= stock.Stock_Quantity;
+                        RepoObj1.UpdateModel(ItemData);
                         TempData["SuccessMsg"] = "Stock Updated Successfully!";
                         return RedirectToAction("List");
                     }

@@ -16,13 +16,13 @@
         <AssociationConnector Association="martmanagement_DbModel.FK__Item__SubCategor__286302EC" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Stock__Item_Id__2B3F6F97" ManuallyRouted="false" />
         <EntityTypeShape EntityType="martmanagement_DbModel.OrderDetail" Width="1.5" PointX="8.25" PointY="10.125" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Order" Width="1.5" PointX="6" PointY="11.375" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Transaction" Width="1.5" PointX="10.5" PointY="7" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Orders__Customer__48CFD27E" />
         <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Item___5070F446" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Order" Width="1.5" PointX="6.625" PointY="3.375" />
+        <AssociationConnector Association="martmanagement_DbModel.FK__Orders__Customer__48CFD27E" />
         <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Order__5165187F" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_Orders_PaymentType" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Transaction" Width="1.5" PointX="8.875" PointY="3.625" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_Transactions_Orders" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D" />
         </Diagram>
     </edmx:Diagrams>

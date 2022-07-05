@@ -29,8 +29,9 @@ namespace MartManagement.BOL
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Phone Number")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
         public string Customer_PhoneNumber { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
     }
