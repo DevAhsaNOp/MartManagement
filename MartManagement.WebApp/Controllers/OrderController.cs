@@ -43,13 +43,9 @@ namespace MartManagement.WebApp.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult Create(Order objOrderViewModel, Customer objCustomerViewModel)
+        public JsonResult Create(Order objOrderViewModel, Customer objCustomerViewModel, string[] quant)
         {
-            objOrderViewModel.Customer_Id = 3;
-            objCustomerViewModel.Customer_Id = 3;
-            objCustomerViewModel.Customer_Name = "Naeem";
-            objCustomerViewModel.Customer_Name = "0311280375";
-            bool isStatus = RepoObj.InsertModel(objOrderViewModel, objCustomerViewModel);
+            bool isStatus = RepoObj.InsertModel(objOrderViewModel, objCustomerViewModel,quant);
             string SuccessMessage = String.Empty;
 
             if (isStatus)
@@ -61,6 +57,13 @@ namespace MartManagement.WebApp.Controllers
                 SuccessMessage = "There Is Some Issue While Placing Order.";
             }
             return Json(SuccessMessage, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Details(int id)
+        {
+            ViewBag.OrderNumber = RepoObj.GetModelByID(id).Order_Number;
+            return View(RepoObj.GetModelByID(id));
         }
     }
 }

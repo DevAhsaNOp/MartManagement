@@ -11,7 +11,8 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,10 +24,20 @@ namespace MartManagement.BOL
         public int Order_Id { get; set; }
         public Nullable<int> PaymentType_Id { get; set; }
         public Nullable<int> Customer_Id { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Order Number")]
         public string Order_Number { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Order Date")]
         public System.DateTime Order_Date { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Final Total")]
         public decimal Order_FinalTotal { get; set; }
-    
+        public virtual Customer Customer { get; set; }
+        public virtual PaymentType PaymentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

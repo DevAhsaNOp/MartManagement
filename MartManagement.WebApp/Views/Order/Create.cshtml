@@ -30,36 +30,36 @@
         });
 
         $("#btnPayment").click(function () {
-            PhoneNumber = $("#txtPhoneNumber").val();
-            CustomerName = $("#txtCustomerName").val();
-            console.log(CustomerName + PhoneNumber);
-            FinalPayment(CustomerName, PhoneNumber);
+            FinalPayment();
         });
 
         $("#btnReset").click(function () { ResetItems(); ResetItemsDetails(); });
-        //ResetItems();
-        //ResetItemsDetails();
+        ResetItems();
+        ResetItemsDetails();
     });
 
-    function FinalPayment(CustomerName, PhoneNumber) {
-        console.log(CustomerName + PhoneNumber);
-        var name = CustomerName;
-        var number = PhoneNumber;
+    function FinalPayment() {
         var objOrderViewModel = {};
-        var objCustomerViewModel = {};
+        const objCustomerViewModel ={};
+        var quant = new Array();
+        var i= 0;
         var ListOrderDetailViewModel = new Array();
-        console.log(name + ' ' + number);
-        objCustomerViewModel.Customer_Name = name;
-        objCustomerViewModel.Customer_PhoneNumber = number;
+        debugger;
+        objCustomerViewModel.Customer_Name = $("#txtCustomerName").val();
+        objCustomerViewModel.Customer_PhoneNumber = $("#txtPhoneNumber").val();
         objOrderViewModel.PaymentType_Id = $("#PaymentType").val();
         objOrderViewModel.Order_FinalTotal = $("#txtFinalTotal").val();
         $("#tblRestaurantItemList").find("tr:gt(0)").each(function () {
-            var OrderDetails = {};
+            const OrderDetails = {};
             OrderDetails.Item_Id = $(this).find("td:eq(0)").text();
             OrderDetails.OrderDetail_UnitPrice = $(this).find("td:eq(2)").text();
             OrderDetails.OrderDetail_Quantity = $(this).find("td:eq(3)").text();
+            console.log(OrderDetails.OrderDetail_Quantity);
+            quant[i] = OrderDetails.OrderDetail_Quantity;
+            console.log("Quant " + quant);
             OrderDetails.OrderDetail_Discount = $(this).find("td:eq(4)").text();
             OrderDetails.OrderDetail_FinalTotal = $(this).find("td:eq(5)").text();
+            i++;
             ListOrderDetailViewModel.push(OrderDetails);
         });
         objOrderViewModel.OrderDetails = ListOrderDetailViewModel;
@@ -68,7 +68,8 @@
             type: 'POST',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(objOrderViewModel, objCustomerViewModel),
+            //data: JSON.stringify(objOrderViewModel, objCustomerViewModel),
+            data: JSON.stringify({ objOrderViewModel: objOrderViewModel, objCustomerViewModel: objCustomerViewModel, quant: quant }),
             url: '/Order/Create',
             success: function (data) { alert(data) },
             error: function () { alert('There is some problem to get the unit price.') }
@@ -260,7 +261,7 @@
                            class="form-control" />
                 </div>
             </div>
-            <div class="col-md-2" style=" width: 22.666667% !important;">
+            <div class="col-md-2" style="width: 22.666667% !important;">
                 <div class="form-group">
                     Payment Type:
                     @Html.DropDownList("PaymentType", new SelectList(Model.Item2, "Value", "Text"),
@@ -268,7 +269,7 @@
                 </div>
             </div>
 
-            <div class="col-md-2" style=" width: 22.666667% !important;">
+            <div class="col-md-2" style="width: 22.666667% !important;">
                 <div class="form-group">
                     Total:
                     <input style="text-align:right; font-weight:bold" name="FinalTotal" type="text" readonly="readonly" id="txtFinalTotal"
@@ -367,8 +368,8 @@
     </table>
 </fieldset>
 
-<div style="margin-top:30px; display: flex; justify-content: right;">
-    <input style=" margin-right: 10px;" data-backdrop="static" data-keydrop="false" data-toggle="modal" data-target="#divPayment" type="button"
+<div style="margin-top:30px; display: flex; justify-content:right;">
+    <input style="margin-right: 10px;" data-backdrop="static" data-keydrop="false" data-toggle="modal" data-target="#divPayment" type="button"
            value="Check Out" name="CheckOut" id="btnCheckOut" class="btn btn-primary" />
     <input type="button" value="Reset" name="Reset" id="btnReset" class="btn btn-danger" />
 </div>

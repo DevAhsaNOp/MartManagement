@@ -49,7 +49,6 @@
             <PropertyRef Name="Order_Id" />
           </Key>
           <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PaymentType_Id" Type="int" />
           <Property Name="Customer_Id" Type="int" />
           <Property Name="Order_Number" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Order_Date" Type="date" Nullable="false" />
@@ -98,6 +97,7 @@
           <Property Name="Transaction_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PaymentType_Id" Type="int" />
           <Property Name="Item_Id" Type="int" />
+          <Property Name="OrderDetail_Id" Type="int" />
           <Property Name="Transaction_Date" Type="date" Nullable="false" />
           <Property Name="Transaction_FinalTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
@@ -113,7 +113,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__35BCFE0A">
+        <Association Name="FK__OrderDeta__Item___4CA06362">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__Order__4BAC3F29">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -122,6 +134,18 @@
             </Principal>
             <Dependent Role="OrderDetail">
               <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__48CFD27E">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Customer_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -149,7 +173,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__Item___3A81B327">
+        <Association Name="FK__Transacti__Item___5070F446">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
           <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -158,6 +182,30 @@
             </Principal>
             <Dependent Role="Transactions">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Order__5165187F">
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetail">
+              <PropertyRef Name="OrderDetail_Id" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="OrderDetail_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Payme__4F7CD00D">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentType_Id" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="PaymentType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -176,9 +224,17 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
             <End Role="Item" EntitySet="Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__35BCFE0A" Association="Self.FK__OrderDeta__Order__35BCFE0A">
+          <AssociationSet Name="FK__OrderDeta__Item___4CA06362" Association="Self.FK__OrderDeta__Item___4CA06362">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__Order__4BAC3F29" Association="Self.FK__OrderDeta__Order__4BAC3F29">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__48CFD27E" Association="Self.FK__Orders__Customer__48CFD27E">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK__Stock__Item_Id__2B3F6F97" Association="Self.FK__Stock__Item_Id__2B3F6F97">
             <End Role="Item" EntitySet="Item" />
@@ -188,8 +244,16 @@
             <End Role="Category" EntitySet="Category" />
             <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Item___3A81B327" Association="Self.FK__Transacti__Item___3A81B327">
+          <AssociationSet Name="FK__Transacti__Item___5070F446" Association="Self.FK__Transacti__Item___5070F446">
             <End Role="Item" EntitySet="Item" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Order__5165187F" Association="Self.FK__Transacti__Order__5165187F">
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Payme__4F7CD00D" Association="Self.FK__Transacti__Payme__4F7CD00D">
+            <End Role="PaymentType" EntitySet="PaymentType" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>
@@ -213,6 +277,7 @@
           <Property Name="Customer_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Customer_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Customer_PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="martmanagement_DbModel.FK__Orders__Customer__48CFD27E" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -226,32 +291,8 @@
           <Property Name="Item_TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="SubCategory" Relationship="Self.FK__Item__SubCategor__286302EC" FromRole="Item" ToRole="SubCategory" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__Item_Id__2B3F6F97" FromRole="Item" ToRole="Stock" />
-          <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Item___3A81B327" FromRole="Item" ToRole="Transactions" />
-        </EntityType>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="OrderDetail_Id" />
-          </Key>
-          <Property Name="OrderDetail_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Order_Id" Type="Int32" />
-          <Property Name="Item_Id" Type="Int32" />
-          <Property Name="OrderDetail_UnitPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="OrderDetail_Quantity" Type="Int32" Nullable="false" />
-          <Property Name="OrderDetail_Discount" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="OrderDetail_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__35BCFE0A" FromRole="OrderDetail" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Order_Id" />
-          </Key>
-          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PaymentType_Id" Type="Int32" />
-          <Property Name="Customer_Id" Type="Int32" />
-          <Property Name="Order_Number" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Order_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__35BCFE0A" FromRole="Orders" ToRole="OrderDetail" />
+          <NavigationProperty Name="OrderDetails" Relationship="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362" FromRole="Item" ToRole="OrderDetail" />
+          <NavigationProperty Name="Transactions" Relationship="martmanagement_DbModel.FK__Transacti__Item___5070F446" FromRole="Item" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="PaymentType">
           <Key>
@@ -259,6 +300,7 @@
           </Key>
           <Property Name="PaymentType_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaymentType_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D" FromRole="PaymentType" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -292,17 +334,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Transaction">
-          <Key>
-            <PropertyRef Name="Transaction_Id" />
-          </Key>
-          <Property Name="Transaction_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PaymentType_Id" Type="Int32" />
-          <Property Name="Item_Id" Type="Int32" />
-          <Property Name="Transaction_Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Transaction_FinalTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.FK__Transacti__Item___3A81B327" FromRole="Transactions" ToRole="Item" />
-        </EntityType>
         <Association Name="FK__SubCatego__Categ__25869641">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
@@ -339,41 +370,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Transacti__Item___3A81B327">
-          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
-          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Item_Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OrderDeta__Order__35BCFE0A">
-          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Order_Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="Order_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="martmanagement_DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Items" EntityType="Self.Item" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <EntitySet Name="Stocks" EntityType="Self.Stock" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
           <AssociationSet Name="FK__SubCatego__Categ__25869641" Association="Self.FK__SubCatego__Categ__25869641">
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
@@ -386,15 +390,147 @@
             <End Role="Item" EntitySet="Items" />
             <End Role="Stock" EntitySet="Stocks" />
           </AssociationSet>
-          <AssociationSet Name="FK__Transacti__Item___3A81B327" Association="Self.FK__Transacti__Item___3A81B327">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="Transactions" EntitySet="Transactions" />
+          <EntitySet Name="OrderDetails" EntityType="martmanagement_DbModel.OrderDetail" />
+          <EntitySet Name="Orders" EntityType="martmanagement_DbModel.Order" />
+          <EntitySet Name="Transactions" EntityType="martmanagement_DbModel.Transaction" />
+          <AssociationSet Name="FK__Orders__Customer__48CFD27E" Association="martmanagement_DbModel.FK__Orders__Customer__48CFD27E">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__35BCFE0A" Association="Self.FK__OrderDeta__Order__35BCFE0A">
-            <End Role="Orders" EntitySet="Orders" />
+          <AssociationSet Name="FK__OrderDeta__Item___4CA06362" Association="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362">
+            <End Role="Item" EntitySet="Items" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Item___5070F446" Association="martmanagement_DbModel.FK__Transacti__Item___5070F446">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__Order__4BAC3F29" Association="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Order__5165187F" Association="martmanagement_DbModel.FK__Transacti__Order__5165187F">
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Payme__4F7CD00D" Association="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetail_Id" />
+          </Key>
+          <Property Name="OrderDetail_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="Int32" />
+          <Property Name="Item_Id" Type="Int32" />
+          <Property Name="OrderDetail_UnitPrice" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="OrderDetail_Quantity" Type="Int32" Nullable="false" />
+          <Property Name="OrderDetail_Discount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="OrderDetail_FinalTotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Item" Relationship="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362" FromRole="OrderDetail" ToRole="Item" />
+          <NavigationProperty Name="Order" Relationship="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Transactions" Relationship="martmanagement_DbModel.FK__Transacti__Order__5165187F" FromRole="OrderDetail" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+          </Key>
+          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer_Id" Type="Int32" />
+          <Property Name="Order_Number" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Order_FinalTotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Customer" Relationship="martmanagement_DbModel.FK__Orders__Customer__48CFD27E" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="OrderDetails" Relationship="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29" FromRole="Order" ToRole="OrderDetail" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Transaction_Id" />
+          </Key>
+          <Property Name="Transaction_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentType_Id" Type="Int32" />
+          <Property Name="Item_Id" Type="Int32" />
+          <Property Name="OrderDetail_Id" Type="Int32" />
+          <Property Name="Transaction_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Transaction_FinalTotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Item" Relationship="martmanagement_DbModel.FK__Transacti__Item___5070F446" FromRole="Transaction" ToRole="Item" />
+          <NavigationProperty Name="OrderDetail" Relationship="martmanagement_DbModel.FK__Transacti__Order__5165187F" FromRole="Transaction" ToRole="OrderDetail" />
+          <NavigationProperty Name="PaymentType" Relationship="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D" FromRole="Transaction" ToRole="PaymentType" />
+        </EntityType>
+        <Association Name="FK__Orders__Customer__48CFD27E">
+          <End Type="martmanagement_DbModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__Item___4CA06362">
+          <End Type="martmanagement_DbModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Item___5070F446">
+          <End Type="martmanagement_DbModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__Order__4BAC3F29">
+          <End Type="martmanagement_DbModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Order_Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Order__5165187F">
+          <End Type="martmanagement_DbModel.OrderDetail" Role="OrderDetail" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetail">
+              <PropertyRef Name="OrderDetail_Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="OrderDetail_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Payme__4F7CD00D">
+          <End Type="martmanagement_DbModel.PaymentType" Role="PaymentType" Multiplicity="0..1" />
+          <End Type="martmanagement_DbModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="PaymentType_Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="PaymentType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -428,31 +564,6 @@
                 <ScalarProperty Name="Item_BuyPrice" ColumnName="Item_BuyPrice" />
                 <ScalarProperty Name="Item_Stock" ColumnName="Item_Stock" />
                 <ScalarProperty Name="Item_TotalPrice" ColumnName="Item_TotalPrice" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderDetails">
-            <EntityTypeMapping TypeName="martmanagement_DbModel.OrderDetail">
-              <MappingFragment StoreEntitySet="OrderDetail">
-                <ScalarProperty Name="OrderDetail_Id" ColumnName="OrderDetail_Id" />
-                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="OrderDetail_UnitPrice" ColumnName="OrderDetail_UnitPrice" />
-                <ScalarProperty Name="OrderDetail_Quantity" ColumnName="OrderDetail_Quantity" />
-                <ScalarProperty Name="OrderDetail_Discount" ColumnName="OrderDetail_Discount" />
-                <ScalarProperty Name="OrderDetail_FinalTotal" ColumnName="OrderDetail_FinalTotal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="martmanagement_DbModel.Order">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
-                <ScalarProperty Name="PaymentType_Id" ColumnName="PaymentType_Id" />
-                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
-                <ScalarProperty Name="Order_Number" ColumnName="Order_Number" />
-                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
-                <ScalarProperty Name="Order_FinalTotal" ColumnName="Order_FinalTotal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -496,14 +607,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="martmanagement_DbModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="OrderDetail_FinalTotal" ColumnName="OrderDetail_FinalTotal" />
+                <ScalarProperty Name="OrderDetail_Discount" ColumnName="OrderDetail_Discount" />
+                <ScalarProperty Name="OrderDetail_Quantity" ColumnName="OrderDetail_Quantity" />
+                <ScalarProperty Name="OrderDetail_UnitPrice" ColumnName="OrderDetail_UnitPrice" />
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+                <ScalarProperty Name="OrderDetail_Id" ColumnName="OrderDetail_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="martmanagement_DbModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Order_FinalTotal" ColumnName="Order_FinalTotal" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Order_Number" ColumnName="Order_Number" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="martmanagement_DbModel.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
-                <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
-                <ScalarProperty Name="PaymentType_Id" ColumnName="PaymentType_Id" />
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
                 <ScalarProperty Name="Transaction_FinalTotal" ColumnName="Transaction_FinalTotal" />
+                <ScalarProperty Name="Transaction_Date" ColumnName="Transaction_Date" />
+                <ScalarProperty Name="OrderDetail_Id" ColumnName="OrderDetail_Id" />
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+                <ScalarProperty Name="PaymentType_Id" ColumnName="PaymentType_Id" />
+                <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -27,9 +27,9 @@ namespace MartManagement.BLL.Repositories
             return dbObj.GetModelByID(modelId);
         }
 
-        public bool InsertModel(Order order, Customer customer)
+        public bool InsertModel(Order order, Customer customer, string[] quant)
         {
-            return dbObj.AddOrder(order, customer);
+            return dbObj.AddOrder(order, customer,quant);
         }
 
         public void UpdateModel(Order model)

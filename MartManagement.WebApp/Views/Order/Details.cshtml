@@ -1,0 +1,103 @@
+﻿@model MartManagement.BOL.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    dt{
+        text-align:left !important;
+    }
+</style>
+
+<h2>Order Details of <b>@Model.Customer.Customer_Name</b> of Order Number: @ViewBag.OrderNumber</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Customer_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Customer_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Customer_PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Customer_PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order_Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order_Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order_FinalTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order_FinalTotal)
+        </dd>
+
+    </dl>
+</div>
+<h3 style="text-align:center !important;color:white !important;">
+   Order Information by <b>Item</b>
+</h3>
+<table class="table table-bordered table-condensed" style="background: #8baeed !important;">
+    <tr>
+        <th style="color: black !important;">Item Name</th>
+        <th style="color: black !important;">Item Price</th>
+        <th style="color: black !important;">Item Quantity</th>
+        <th style="color: black !important;">Item Discount</th>
+        <th style="color: black !important;">Item Final Total</th>
+    </tr>
+    @if (Model.OrderDetails.Count <= 0)
+    {
+        <tr style="height:50px !important;text-align:center !important">
+            <th style="color: white !important; text-align:center">No Records Found! </th>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Item_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail_UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail_Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail_Discount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail_FinalTotal)
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Back to List", "List")
+</p>

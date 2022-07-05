@@ -34,7 +34,7 @@ namespace MartManagement.DAL.DBLayer
         //}
 
         private CustomerDb CustomerRepositories = new CustomerDb();
-        public bool AddOrder(Order orderViewModel, Customer customerViewModel)
+        public bool AddOrder(Order orderViewModel, Customer customerViewModel, string[] quant)
         {
             try
             {
@@ -43,21 +43,21 @@ namespace MartManagement.DAL.DBLayer
                 {
                     Customer_Id = customerId,
                     Order_FinalTotal = orderViewModel.Order_FinalTotal,
-                    Order_Date = orderViewModel.Order_Date,
+                    Order_Date = DateTime.Now.Date,
                     Order_Number = String.Format("{0:ddmmyyyyhhmmss}", DateTime.Now),
                     PaymentType_Id = orderViewModel.PaymentType_Id,
                 };
                 _context.Orders.Add(objOrder);
                 _context.SaveChanges();
                 var OrderId = objOrder.Order_Id;
-
+                int i = 0;
                 foreach (var item in orderViewModel.OrderDetails)
                 {
                     var objOrderDetails = new OrderDetail()
                     {
                         OrderDetail_Discount = item.OrderDetail_Discount,
                         Item_Id = item.Item_Id,
-                        OrderDetail_Quantity = item.OrderDetail_Quantity,
+                        OrderDetail_Quantity = Convert.ToInt32(Convert.ToDecimal(quant[i])),
                         Order_Id = OrderId,
                         OrderDetail_FinalTotal = item.OrderDetail_FinalTotal,
                         OrderDetail_UnitPrice = item.OrderDetail_UnitPrice
@@ -65,15 +65,21 @@ namespace MartManagement.DAL.DBLayer
                     _context.OrderDetails.Add(objOrderDetails);
                     _context.SaveChanges();
 
+                    StockDb stockObj = new StockDb();
+                    var stockData = _context.Stocks.Where(x => x.Item_Id == objOrderDetails.Item_Id).FirstOrDefault();
+                    stockData.Stock_Quantity = stockData.Stock_Quantity - objOrderDetails.OrderDetail_Quantity;
+                    stockObj.UpdateModel(stockData);
                     Transaction objTransaction = new Transaction()
                     {
-                        Item_Id =item.Item_Id,
+                        Item_Id = item.Item_Id,
                         PaymentType_Id = orderViewModel.PaymentType_Id,
-                        Transaction_Date = orderViewModel.Order_Date,
-                        Transaction_FinalTotal = orderViewModel.Order_FinalTotal,
+                        Transaction_Date = DateTime.Now,
+                        Transaction_FinalTotal = objOrder.Order_FinalTotal,
+                        OrderDetail_Id = objOrderDetails.OrderDetail_Id
                     };
                     _context.Transactions.Add(objTransaction);
                     _context.SaveChanges();
+                    i++;
                 }
                 return true;
             }

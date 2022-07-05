@@ -11,17 +11,39 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderDetail()
+        {
+            this.Transactions = new HashSet<Transaction>();
+        }
+    
         public int OrderDetail_Id { get; set; }
         public Nullable<int> Order_Id { get; set; }
         public Nullable<int> Item_Id { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Unit Price")]
         public decimal OrderDetail_UnitPrice { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Order Quantity")]
         public int OrderDetail_Quantity { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Discount")]
         public Nullable<decimal> OrderDetail_Discount { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Final Total")]
         public decimal OrderDetail_FinalTotal { get; set; }
     
+        public virtual Item Item { get; set; }
         public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

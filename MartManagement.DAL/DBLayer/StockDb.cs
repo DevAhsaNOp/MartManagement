@@ -38,7 +38,6 @@ namespace MartManagement.DAL.DBLayer
 
         public void InsertModel(Stock model)
         {
-            
             dbEntity.Add(model);
             Save();
         }
@@ -53,7 +52,7 @@ namespace MartManagement.DAL.DBLayer
             Stock obj = _context.Stocks.Find(model.Stock_Id);
             obj.Stock_Quantity = model.Stock_Quantity;
             obj.Stock_RetailPrice = model.Stock_RetailPrice;
-            obj.Stock_TotalPrice = model.Stock_TotalPrice;
+            obj.Stock_TotalPrice = model.Stock_RetailPrice * model.Stock_Quantity;
             _context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             Save();
         }
