@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {
+    [Authorize]
     public class StockController : Controller
     {
         private StockRepo RepoObj;
