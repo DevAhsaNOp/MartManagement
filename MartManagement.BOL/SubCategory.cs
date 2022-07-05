@@ -29,7 +29,7 @@ namespace MartManagement.BOL
         public string SubCategory_Name { get; set; }
 
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Sub Category Description")]
+        [Display(Name = "Category Description")]
         public string SubCategory_Description { get; set; }
 
 
