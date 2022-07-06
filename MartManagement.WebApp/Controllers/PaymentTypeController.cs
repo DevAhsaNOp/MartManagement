@@ -8,6 +8,7 @@ using MartManagement.BLL.Repositories;
 
 namespace MartManagement.WebApp.Controllers
 {
+    [Authorize]
     public class PaymentTypeController : Controller
     {
         private PaymentTypeRepo RepoObj;
