@@ -136,6 +136,7 @@
 
     function RemoveItem(itemId) {
         $(itemId).closest('tr').remove();
+        FinalItemTotal();
         EnableDisableCheckOut();
     }
 

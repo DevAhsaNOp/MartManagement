@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mart Management</title>
     @Styles.Render("~/Content/css")
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
     <style>
         body {
@@ -34,17 +36,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 @*@if (User.Identity.IsAuthenticated)
-                {*@
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Sub Categorys", "List", "SubCategory")</li>
-                        <li>@Html.ActionLink("Categorys", "List", "Category")</li>
-                        <li>@Html.ActionLink("Items", "List", "Item")</li>
-                        <li>@Html.ActionLink("Stocks", "List", "Stock")</li>
-                        <li>@Html.ActionLink("Payment Type", "List", "PaymentType")</li>
-                        <li>@Html.ActionLink("Customer", "List", "Customer")</li>
-                        <li>@Html.ActionLink("Order", "List", "Order")</li>
-                        @*<li>@Html.ActionLink("Logout", "LogOff", "Account")</li>*@
-                        @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {*@
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Sub Categorys", "List", "SubCategory")</li>
+                    <li>@Html.ActionLink("Categorys", "List", "Category")</li>
+                    <li>@Html.ActionLink("Items", "List", "Item")</li>
+                    <li>@Html.ActionLink("Stocks", "List", "Stock")</li>
+                    <li>@Html.ActionLink("Payment Type", "List", "PaymentType")</li>
+                    <li>@Html.ActionLink("Customer", "List", "Customer")</li>
+                    <li>@Html.ActionLink("Order", "List", "Order")</li>
+                    @*<li>@Html.ActionLink("Logout", "LogOff", "Account")</li>*@
+                    @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                         {
                         @Html.AntiForgeryToken()
 
@@ -55,12 +57,12 @@
                             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                         }*@
-                    </ul>
+                </ul>
                 @*}
-               else
-                {
-                    @Html.Partial("_LoginPartial")                        
-                }*@
+                    else
+                     {
+                         @Html.Partial("_LoginPartial")
+                     }*@
             </div>
         </div>
     </div>
@@ -73,11 +75,18 @@
     </div>
 
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('#MyTable').dataTable();
+        });
+    </script>
 </body>
 </html>
