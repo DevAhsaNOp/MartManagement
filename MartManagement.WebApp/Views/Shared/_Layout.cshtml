@@ -33,34 +33,35 @@
                 @Html.ActionLink("Mart Management", "List", "Item", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                @*@if (User.Identity.IsAuthenticated)
-                    {*@
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Sub Categorys", "List", "SubCategory")</li>
-                    <li>@Html.ActionLink("Categorys", "List", "Category")</li>
-                    <li>@Html.ActionLink("Items", "List", "Item")</li>
-                    <li>@Html.ActionLink("Stocks", "List", "Stock")</li>
-                    <li>@Html.ActionLink("Payment Type", "List", "PaymentType")</li>
-                    <li>@Html.ActionLink("Customer", "List", "Customer")</li>
-                    <li>@Html.ActionLink("Order", "List", "Order")</li>
-                    @*<li>@Html.ActionLink("Logout", "LogOff", "Account")</li>*@
-                    @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Categorys", "List", "Category")</li>
+                        <li>@Html.ActionLink("Sub Categorys", "List", "SubCategory")</li>
+                        <li>@Html.ActionLink("Items", "List", "Item")</li>
+                        <li>@Html.ActionLink("Stocks", "List", "Stock")</li>
+                        <li>@Html.ActionLink("Payment Type", "List", "PaymentType")</li>
+                        <li>@Html.ActionLink("Customer", "List", "Customer")</li>
+                        <li>@Html.ActionLink("Order", "List", "Order")</li>
+                        @*<li>@Html.ActionLink("Logout", "LogOff", "Account")</li>*@
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                         {
-                        @Html.AntiForgeryToken()
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                            </li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                        </ul>
-                        }*@
-                </ul>
-                @*}
-                    else
-                     {
-                         @Html.Partial("_LoginPartial")
-                     }*@
+                            @Html.AntiForgeryToken()
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                </li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                                </li>
+                            </ul>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    @Html.Partial("_LoginPartial")
+                }
             </div>
         </div>
     </div>
@@ -73,8 +74,6 @@
     </div>
 
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @Scripts.Render("~/bundles/jquery")

@@ -32,7 +32,44 @@
 
     </dl>
 </div>
+<h3 style="text-align:center !important;color:black !important;">
+    Sub Catgories on current <b>Category</b>
+</h3>
+<table class="table table-bordered table-condensed" style="background: #8baeed !important;">
+    <tr>
+        <th style="color: black !important;">Sub Category Name</th>
+        <th style="color: black !important;">Sub Category Description</th>
+        <th style="color: black !important;">Edit</th>
+        <th style="color: black !important;">Details</th>
+    </tr>
+    @if (Model.SubCategories.Count <= 0)
+    {
+        <tr style="text-align:center !important">
+            <th style="color: white !important; text-align:center" colspan="4">No Records Found! </th>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model.SubCategories)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCategory_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCategory_Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "SubCategory", new { id = item.SubCategory_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "SubCategory", new { id = item.SubCategory_Id }, htmlAttributes: new { @class = "btn btn-warning btn-sm" })
+                </td>
+            </tr>
+        }
+    }
+</table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Category_Id }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
-    @Html.ActionLink("Back to List", "List",null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Back to List", "List", null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
 </p>
