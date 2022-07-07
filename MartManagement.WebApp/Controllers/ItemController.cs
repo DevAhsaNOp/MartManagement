@@ -1,5 +1,6 @@
 ﻿using MartManagement.BLL.Repositories;
 using MartManagement.BOL;
+using MartManagement.BOL.ValidationClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace MartManagement.WebApp.Controllers
             RepoObj = new ItemRepo();
             _context = new martmanagement_DbEntities();
         }
-
         public ActionResult List()
         {
             return View(RepoObj.GetModel());
@@ -93,6 +93,18 @@ namespace MartManagement.WebApp.Controllers
         {
             ViewBag.ItemName = RepoObj.GetModelByID(id).Item_Name;
             return View(RepoObj.GetModelByID(id));
+        }
+
+        public JsonResult GetNotificationItem()
+        {
+            var ItemsLimit = 10;
+            NotificationComponent NC = new NotificationComponent();
+            var list = NC.GetItems(ItemsLimit);
+            //update session here for get only new added contacts (notification)
+            Session["LastUpdate"] = DateTime.Now;
+            Session["ListItem"] = list;
+            string abc = Session["ListItem"].ToString();
+            return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }

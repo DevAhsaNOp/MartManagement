@@ -97,6 +97,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationClasses\CategoryValidation.cs" />
+    <Compile Include="ValidationClasses\ItemCls.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Model1.edmx">
