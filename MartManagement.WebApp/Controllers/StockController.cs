@@ -37,15 +37,28 @@ namespace MartManagement.WebApp.Controllers
         public ActionResult Create(Stock stock)
         {
             var ItemData = RepoObj1.GetModelByID(stock.Item_Id.GetValueOrDefault());
+            var StockData = RepoObj.GetModelByID(stock.Item_Id.GetValueOrDefault());
             try
             {
                 if (stock.Stock_Quantity < ItemData.Item_Stock && stock.Stock_RetailPrice > ItemData.Item_BuyPrice)
                 {
                     if (ModelState.IsValid)
                     {
-                        RepoObj.InsertModel(stock);
-                        ItemData.Item_Stock -= stock.Stock_Quantity;
-                        RepoObj1.UpdateModel(ItemData);
+                        if (StockData != null)
+                        {
+                            ItemData.Item_Stock -= stock.Stock_Quantity;
+                            RepoObj1.UpdateModel(ItemData);
+                            StockData.Stock_Quantity += stock.Stock_Quantity;
+                            StockData.Stock_RetailPrice = stock.Stock_RetailPrice;
+                            StockData.Stock_TotalPrice = stock.Stock_RetailPrice * StockData.Stock_Quantity;
+                            RepoObj.UpdateModel(StockData);
+                        }
+                        else
+                        {
+                            RepoObj.InsertModel(stock);
+                            ItemData.Item_Stock -= stock.Stock_Quantity;
+                            RepoObj1.UpdateModel(ItemData);
+                        }
                         TempData["SuccessMsg"] = "Stock Added Successfully!";
                         return RedirectToAction("List");
                     }
