@@ -151,67 +151,143 @@
 
     @* Add jquery code for Get Notification & setup signalr *@
     <script type="text/javascript">
-        $(function () {
-            // Click on notification icon for show notification
+        $(document).ready(function () {
+            updateNotification();
+            GetCount();
             $('span.noti').click(function (e) {
                 e.stopPropagation();
                 $('.noti-content').show();
                 var count = 0;
                 count = parseInt($('span.count').html()) || 0;
-                //only load notification if not already loaded
+                //Only load notification if not already loaded
                 if (count > 0) {
                     updateNotification();
+                    sessionStorage.setItem("count", 0);
                 }
                 $('span.count', this).html('&nbsp;');
             })
-            // hide notifications
+
+            // Hide notifications
             $('html').click(function () {
                 $('.noti-content').hide();
             })
-            // update notification
-            function updateNotification() {
-                $('#notiContent').empty();
-                $('#notiContent').append($('<li>Loading...</li>'));
-                $.ajax({
-                    type: 'GET',
-                    url: '/Item/GetNotificationItem',
-                    success: function (response) {
-                        console.log(response);
-                        $('#notiContent').empty();
-                        if (response.length == 0) {
-                            $('#notiContent').append($('<li>No data available</li>'));
-                        }
-                        //else {
-                        //    $('#notiContent').append($('<li>Item Stock Alert: ' + response + ' Stock is less than 10</li>'));
-                        //}
-                        $.each(response, function (index, value) {
-                            $('#notiContent').append($('<li>Item Stock Alert: ' + value.Item_Name + ' is less than (' + value.Item_Stock + ') </li>'));
-                        });
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                })
-            }
-            // update notification count
-            function updateNotificationCount() {
-                var count = 0;
-                count = parseInt($('span.count').html()) || 0;
-                count++;
-                $('span.count').html(count);
-            }
-            // signalr js code for start hub and send receive notification
+
+            // SignalR js code for start hub and send receive notification
             var notificationHub = $.connection.notificationHub;
             $.connection.hub.start().done(function () {
                 console.log('Notification hub started');
             });
-            //signalr method for push server message to client
+
+            //SignalR method for push server message to client
             notificationHub.client.notify = function (message) {
                 if (message && message.toLowerCase() == "added") {
                     updateNotificationCount();
                 }
             }
-        })
+        });
+
+        function GetCount() {
+            var count = sessionStorage.getItem("count");
+            if (count > 0) {
+                $('span.count').html(count);
+            }
+            else {
+                $('span.count', this).html('&nbsp;');
+            }
+        }
+
+        // Update notification
+        function updateNotification() {
+            $('#notiContent').empty();
+            $('#notiContent').append($('<li>Loading...</li>'));
+            $.ajax({
+                type: 'GET',
+                url: '/Item/GetNotificationItem',
+                success: function (response) {
+                    $('#notiContent').empty();
+                    if (response.length == 0) {
+                        $('#notiContent').append($('<li>No data available</li>'));
+                    }
+                    $.each(response, function (index, value) {
+                        $('#notiContent').append($('<li>Item Stock Alert: ' + value.Item_Name + ' is less than (' + value.Item_Stock + ') </li>'));
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+
+        // Update notification count
+        function updateNotificationCount() {
+            var count = 0;
+            count = parseInt($('span.count').html()) || 0;
+            count++;
+            $('span.count').html(count);
+            sessionStorage.setItem("count", count);
+        }
+
+        //$(function () {
+        //    // Click on notification icon for show notification
+        //    $('span.noti').click(function (e) {
+        //        e.stopPropagation();
+        //        $('.noti-content').show();
+        //        var count = 0;
+        //        count = parseInt($('span.count').html()) || 0;
+        //        //only load notification if not already loaded
+        //        if (count > 0) {
+        //            updateNotification();
+        //        }
+        //        $('span.count', this).html('&nbsp;');
+        //    })
+        //    // hide notifications
+        //    $('html').click(function () {
+        //        $('.noti-content').hide();
+        //    })
+        //    // update notification
+        //    function updateNotification() {
+        //        $('#notiContent').empty();
+        //        $('#notiContent').append($('<li>Loading...</li>'));
+        //        $.ajax({
+        //            type: 'GET',
+        //            url: '/Item/GetNotificationItem',
+        //            success: function (response) {
+        //                console.log(response);
+        //                $('#notiContent').empty();
+        //                if (response.length == 0) {
+        //                    $('#notiContent').append($('<li>No data available</li>'));
+        //                }
+        //                //else {
+        //                //    $('#notiContent').append($('<li>Item Stock Alert: ' + response + ' Stock is less than 10</li>'));
+        //                //}
+        //                $.each(response, function (index, value) {
+        //                    $('#notiContent').append($('<li>Item Stock Alert: ' + value.Item_Name + ' is less than (' + value.Item_Stock + ') </li>'));
+        //                });
+        //            },
+        //            error: function (error) {
+        //                console.log(error);
+        //            }
+        //        })
+        //    }
+        //    // update notification count
+        //    function updateNotificationCount() {
+        //        var count = 0;
+        //        count = parseInt($('span.count').html()) || 0;
+        //        count++;
+        //        $('span.count').html(count);
+        //    }
+        //    // signalr js code for start hub and send receive notification
+        //    var notificationHub = $.connection.notificationHub;
+        //    $.connection.hub.start().done(function () {
+        //        console.log('Notification hub started');
+        //    });
+        //    //signalr method for push server message to client
+        //    notificationHub.client.notify = function (message) {
+        //        if (message && message.toLowerCase() == "added") {
+        //            updateNotificationCount();
+        //        }
+        //    }
+        //})
     </script>
 </body>
 </html>

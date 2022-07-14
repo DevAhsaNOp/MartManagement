@@ -102,8 +102,6 @@ namespace MartManagement.WebApp.Controllers
             var list = NC.GetItems(ItemsLimit);
             //update session here for get only new added contacts (notification)
             Session["LastUpdate"] = DateTime.Now;
-            Session["ListItem"] = list;
-            string abc = Session["ListItem"].ToString();
             return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
