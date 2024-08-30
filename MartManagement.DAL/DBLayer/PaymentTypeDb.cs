@@ -1,10 +1,7 @@
 ﻿using MartManagement.BOL;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace MartManagement.DAL.DBLayer
@@ -30,14 +27,28 @@ namespace MartManagement.DAL.DBLayer
 
         public IEnumerable<SelectListItem> GetAllPaymentType()
         {
-            var result = new List<SelectListItem>();
-            result = (from obj in _context.PaymentTypes
-                      select new SelectListItem()
-                      {
-                          Text = obj.PaymentType_Name,
-                          Value = obj.PaymentType_Id.ToString(),
-                          Selected = false
-                      }).ToList();
+            var result = new List<SelectListItem>
+            {
+                new SelectListItem()
+                {
+                    Text = "Select Payment Type",
+                    Value = "0",
+                    Selected = true
+                }
+            };
+
+            var allAvailablePaymentTypes = _context.PaymentTypes
+                .Select(model => new SelectListItem
+                {
+                    Text = model.PaymentType_Name,
+                    Value = model.PaymentType_Id.ToString(),
+                    Selected = false
+                })
+                .ToList();
+
+            if (allAvailablePaymentTypes != null && allAvailablePaymentTypes.Any())
+                result.AddRange(allAvailablePaymentTypes);
+
             return result;
         }
 

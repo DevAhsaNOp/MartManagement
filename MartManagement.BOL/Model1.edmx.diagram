@@ -4,27 +4,35 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8824fe302d7f4bb9846490826f7b6329" Name="Diagram1">
+      <Diagram DiagramId="5870809349d04c4bb86f362cb63fea20" Name="Diagram1">
+        <EntityTypeShape EntityType="martmanagement_DbModel.C__MigrationHistory" Width="1.5" PointX="10.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.AspNetRole" Width="1.5" PointX="5.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.AspNetUser" Width="1.5" PointX="8" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="martmanagement_DbModel.Category" Width="1.5" PointX="1.5" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Customer" Width="1.5" PointX="4.375" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Item" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Item" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Order" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="martmanagement_DbModel.PaymentType" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Stock" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Stock" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="martmanagement_DbModel.SubCategory" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.sysdiagram" Width="1.5" PointX="10.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="martmanagement_DbModel.Transaction" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__SubCatego__Categ__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK__Order__Customer__48CFD27E" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Item__SubCategor__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362" ManuallyRouted="false" />
         <AssociationConnector Association="martmanagement_DbModel.FK__Stock__Item_Id__2B3F6F97" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.OrderDetail" Width="1.5" PointX="8.25" PointY="10.125" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Item___4CA06362" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Order" Width="1.5" PointX="6.625" PointY="3.375" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Orders__Customer__48CFD27E" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29" />
-        <AssociationConnector Association="martmanagement_DbModel.FK_Orders_PaymentType" />
-        <EntityTypeShape EntityType="martmanagement_DbModel.Transaction" Width="1.5" PointX="8.875" PointY="3.625" />
-        <AssociationConnector Association="martmanagement_DbModel.FK_Transactions_Orders" />
-        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D" />
-        </Diagram>
+        <AssociationConnector Association="martmanagement_DbModel.FK__OrderDeta__Order__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_Order_PaymentType" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK_Transaction_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.FK__Transacti__Payme__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="martmanagement_DbModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

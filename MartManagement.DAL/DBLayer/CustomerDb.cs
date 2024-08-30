@@ -1,10 +1,7 @@
 ﻿using MartManagement.BOL;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MartManagement.DAL.DBLayer
 {
@@ -25,17 +22,29 @@ namespace MartManagement.DAL.DBLayer
 
         public IEnumerable<Customer> GetModel()
         {
-            return  _context.Customers.ToList();
+            return _context.Customers.ToList();
+        }
+
+        public Tuple<int, string> GetCustomerNameAndIdByPhone(string phone)
+        {
+            var data = _context.Customers.Where(x => x.Customer_PhoneNumber == phone)
+                .Select(x => new { x.Customer_Name, x.Customer_Id })
+                .FirstOrDefault();
+
+            if (data != null)
+                return new Tuple<int, string>(data.Customer_Id, data.Customer_Name);
+
+            return new Tuple<int, string>(0, "");
         }
 
         public Customer GetModelByID(int modelId)
         {
-            return  _context.Customers.Find(modelId);
+            return _context.Customers.Find(modelId);
         }
 
         public int InsertModel(Customer model)
         {
-             _context.Customers.Add(model);
+            _context.Customers.Add(model);
             Save();
             return model.Customer_Id;
         }

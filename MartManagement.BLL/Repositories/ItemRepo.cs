@@ -1,10 +1,6 @@
 ﻿using MartManagement.BOL;
 using MartManagement.DAL.DBLayer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace MartManagement.BLL.Repositories
@@ -20,6 +16,11 @@ namespace MartManagement.BLL.Repositories
         public void DeleteModel(int modelID)
         {
             dbObj.DeleteModel(modelID);
+        }
+
+        public decimal GetItemUnitPrice(int itemId)
+        {
+            return dbObj.GetItemUnitPrice(itemId);
         }
 
         public IEnumerable<Item> GetModel()

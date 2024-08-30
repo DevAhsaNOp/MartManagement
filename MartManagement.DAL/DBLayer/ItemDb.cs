@@ -1,10 +1,7 @@
 ﻿using MartManagement.BOL;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace MartManagement.DAL.DBLayer
@@ -23,15 +20,38 @@ namespace MartManagement.DAL.DBLayer
 
         public IEnumerable<SelectListItem> GetAllItems()
         {
-            var result = new List<SelectListItem>();
-            result = (from obj in _context.Items
-                      select new SelectListItem()
-                      {
-                          Text = obj.Item_Name,
-                          Value = obj.Item_Id.ToString(),
-                          Selected = false
-                      }).ToList();
+            var result = new List<SelectListItem>
+            {
+                new SelectListItem()
+                {
+                    Text = "Select Item",
+                    Value = "0",
+                    Selected = true,
+                }
+            };
+
+            var allAvailableItems = _context.Items
+                .Select(model => new SelectListItem
+                {
+                    Text = model.Item_Name,
+                    Value = model.Item_Id.ToString(),
+                    Selected = false
+                })
+                .ToList();
+
+            if (allAvailableItems != null && allAvailableItems.Any())
+                result.AddRange(allAvailableItems);
+
             return result;
+        }
+
+        public decimal GetItemUnitPrice(int itemId)
+        {
+            if (itemId == 0)
+                return 0.0m;
+
+            decimal UnitPrice = _context.Stocks.Single(model => model.Item_Id == itemId).Stock_RetailPrice;
+            return UnitPrice;
         }
 
         public void DeleteModel(int modelID)
@@ -64,7 +84,7 @@ namespace MartManagement.DAL.DBLayer
 
         public void UpdateModel(Item model)
         {
-            _context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(model).State = EntityState.Modified;
             Save();
         }
     }

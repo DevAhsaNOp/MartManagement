@@ -1,14 +1,11 @@
 ﻿using MartManagement.BOL;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MartManagement.DAL.DBLayer
 {
-    public class OrderDb 
+    public class OrderDb
     {
         //connection string...... 
         private martmanagement_DbEntities _context;
@@ -28,15 +25,21 @@ namespace MartManagement.DAL.DBLayer
         }
 
         private CustomerDb CustomerRepositories = new CustomerDb();
-        public bool AddOrder(Order orderViewModel, Customer customerViewModel, string[] quant)
+        public bool AddOrder(Order orderViewModel, Customer customerViewModel)
         {
             try
             {
-                var customerId = CustomerRepositories.InsertModel(customerViewModel);
+                int customerId = 0;
+
+                if (customerViewModel.Customer_Id <= 0)
+                    customerId = CustomerRepositories.InsertModel(customerViewModel);
+                else
+                    customerId = customerViewModel.Customer_Id;
+
                 Order objOrder = new Order()
                 {
                     Customer_Id = customerId,
-                    Order_Number = String.Format("{0:ddmmyyyyhhmmss}", DateTime.Now),
+                    Order_Number = String.Format("{0:ddMMyyyyhhmmss}", DateTime.Now),
                     Order_Date = DateTime.Now,
                     Order_FinalTotal = orderViewModel.Order_FinalTotal,
                     PaymentType_Id = orderViewModel.PaymentType_Id
@@ -44,10 +47,9 @@ namespace MartManagement.DAL.DBLayer
 
                 _context.Orders.Add(objOrder);
                 _context.SaveChanges();
-                
+
                 var OrderId = objOrder.Order_Id;
-                int i = 0;
-                
+
                 foreach (var item in orderViewModel.OrderDetails)
                 {
                     var objOrderDetails = new OrderDetail()
@@ -55,7 +57,7 @@ namespace MartManagement.DAL.DBLayer
                         Order_Id = OrderId,
                         Item_Id = item.Item_Id,
                         OrderDetail_UnitPrice = item.OrderDetail_UnitPrice,
-                        OrderDetail_Quantity = Convert.ToInt32(Convert.ToDecimal(quant[i])),
+                        OrderDetail_Quantity = item.OrderDetail_Quantity,
                         OrderDetail_Discount = item.OrderDetail_Discount,
                         OrderDetail_FinalTotal = item.OrderDetail_FinalTotal,
                     };
@@ -66,7 +68,6 @@ namespace MartManagement.DAL.DBLayer
                     var stockData = _context.Stocks.Where(x => x.Item_Id == objOrderDetails.Item_Id).FirstOrDefault();
                     stockData.Stock_Quantity = stockData.Stock_Quantity - objOrderDetails.OrderDetail_Quantity;
                     stockObj.UpdateModel(stockData);
-                    i++;
                 }
 
                 Transaction objTransaction = new Transaction()
@@ -76,7 +77,7 @@ namespace MartManagement.DAL.DBLayer
                     Transaction_FinalTotal = objOrder.Order_FinalTotal,
                     Order_Id = OrderId
                 };
-                
+
                 _context.Transactions.Add(objTransaction);
                 _context.SaveChanges();
 

@@ -12,19 +12,18 @@ namespace MartManagement.BOL
     using System;
     using System.Collections.Generic;
     
-    public partial class Customer
+    public partial class AspNetRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
+        public AspNetRole()
         {
-            this.Orders = new HashSet<Order>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
-        public int Customer_Id { get; set; }
-        public string Customer_Name { get; set; }
-        public string Customer_PhoneNumber { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

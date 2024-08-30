@@ -1,10 +1,6 @@
 ﻿using MartManagement.BOL;
 using MartManagement.DAL.DBLayer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MartManagement.BLL.Repositories
 {
@@ -27,9 +23,9 @@ namespace MartManagement.BLL.Repositories
             return dbObj.GetModelByID(modelId);
         }
 
-        public bool InsertModel(Order order, Customer customer, string[] quant)
+        public bool InsertModel(Order order, Customer customer)
         {
-            return dbObj.AddOrder(order, customer,quant);
+            return dbObj.AddOrder(order, customer);
         }
 
         public void UpdateModel(Order model)

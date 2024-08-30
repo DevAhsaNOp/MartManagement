@@ -2,9 +2,6 @@
 using MartManagement.DAL.DBLayer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MartManagement.BLL.Repositories
 {
@@ -21,6 +18,14 @@ namespace MartManagement.BLL.Repositories
             dbObj.DeleteModel(modelID);
         }
 
+        public Tuple<int, string> GetCustomerNameAndIdByPhone(string phone)
+        {
+            if (string.IsNullOrEmpty(phone))
+                return new Tuple<int, string>(0, "");
+
+            return dbObj.GetCustomerNameAndIdByPhone(phone);
+        }
+
         public IEnumerable<Customer> GetModel()
         {
             return dbObj.GetModel();
@@ -33,7 +38,7 @@ namespace MartManagement.BLL.Repositories
 
         public int InsertModel(Customer model)
         {
-           return dbObj.InsertModel(model);
+            return dbObj.InsertModel(model);
         }
 
         public void UpdateModel(Customer model)

@@ -3,7 +3,6 @@ using MartManagement.BOL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
@@ -27,8 +26,15 @@ namespace MartManagement.WebApp.Controllers
         [HttpGet]
         public JsonResult getItemUnitPrice(int itemId)
         {
-            decimal UnitPrice = _context.Stocks.Single(model => model.Item_Id == itemId).Stock_RetailPrice;
-            return Json(UnitPrice, JsonRequestBehavior.AllowGet);
+            ItemRepo objitemRepositories = new ItemRepo();
+            return Json(objitemRepositories.GetItemUnitPrice(itemId), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult getCustomerDetailsByPhone(string phoneNumber)
+        {
+            CustomerRepo objCustomerRepositories = new CustomerRepo();
+            return Json(objCustomerRepositories.GetCustomerNameAndIdByPhone(phoneNumber), JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -43,9 +49,9 @@ namespace MartManagement.WebApp.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult Create(Order objOrderViewModel, Customer objCustomerViewModel, string[] quant)
+        public JsonResult Create(Order objOrderViewModel, Customer objCustomerViewModel)
         {
-            bool isStatus = RepoObj.InsertModel(objOrderViewModel, objCustomerViewModel,quant);
+            bool isStatus = RepoObj.InsertModel(objOrderViewModel, objCustomerViewModel);
             string SuccessMessage = String.Empty;
 
             if (isStatus)

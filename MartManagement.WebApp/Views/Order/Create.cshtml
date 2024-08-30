@@ -24,6 +24,10 @@
             CalculateBalance();
         });
 
+        $("#txtPhoneNumber").change(function () {
+            GetCustomerNameByPhoneNumber();
+        });
+
         $("#btnAddToList").click(function () {
             AddToTheItemList();
             FinalItemTotal();
@@ -40,26 +44,21 @@
 
     function FinalPayment() {
         var objOrderViewModel = {};
-        const objCustomerViewModel ={};
-        var quant = new Array();
-        var i= 0;
+        const objCustomerViewModel = {};
         var ListOrderDetailViewModel = new Array();
-        debugger;
+        objCustomerViewModel.Customer_Id = $("#txtCustomerId").val();
         objCustomerViewModel.Customer_Name = $("#txtCustomerName").val();
         objCustomerViewModel.Customer_PhoneNumber = $("#txtPhoneNumber").val();
         objOrderViewModel.PaymentType_Id = $("#PaymentType").val();
+        objOrderViewModel.Customer_Id = $("#txtCustomerId").val();
         objOrderViewModel.Order_FinalTotal = $("#txtFinalTotal").val();
         $("#tblRestaurantItemList").find("tr:gt(0)").each(function () {
             const OrderDetails = {};
             OrderDetails.Item_Id = $(this).find("td:eq(0)").text();
             OrderDetails.OrderDetail_UnitPrice = $(this).find("td:eq(2)").text();
-            OrderDetails.OrderDetail_Quantity = $(this).find("td:eq(3)").text();
-            console.log(OrderDetails.OrderDetail_Quantity);
-            quant[i] = OrderDetails.OrderDetail_Quantity;
-            console.log("Quant " + quant);
+            OrderDetails.OrderDetail_Quantity = parseInt($(this).find("td:eq(3)").text());
             OrderDetails.OrderDetail_Discount = $(this).find("td:eq(4)").text();
             OrderDetails.OrderDetail_FinalTotal = $(this).find("td:eq(5)").text();
-            i++;
             ListOrderDetailViewModel.push(OrderDetails);
         });
         objOrderViewModel.OrderDetails = ListOrderDetailViewModel;
@@ -69,7 +68,7 @@
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             //data: JSON.stringify(objOrderViewModel, objCustomerViewModel),
-            data: JSON.stringify({ objOrderViewModel: objOrderViewModel, objCustomerViewModel: objCustomerViewModel, quant: quant }),
+            data: JSON.stringify({ objOrderViewModel: objOrderViewModel, objCustomerViewModel: objCustomerViewModel}),
             url: '/Order/Create',
             success: function (data) { alert(data) },
             error: function () { alert('There is some problem to get the unit price.') }
@@ -77,6 +76,7 @@
 
         ResetItems();
         ResetItemsDetails();
+        location.reload();
     }
 
     function ResetItemsDetails() {
@@ -167,8 +167,26 @@
             contentType: 'application/json; charset=utf-8',
             data: { itemId: itemId },
             url: '/Order/getItemUnitPrice',
-            success: function (data) { $("#txtUnitPrice").val(data).toFixed(2) },
+            success: function (data) { $("#txtUnitPrice").val(parseFloat(data).toFixed(2)) },
             error: function () { alert('There is some problem to get the unit price.') }
+        });
+    }
+
+    function GetCustomerNameByPhoneNumber() {
+        var phoneNumber = $("#txtPhoneNumber").val();
+        $.ajax({
+            async: true,
+            type: 'GET',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: { phoneNumber: phoneNumber },
+            url: '/Order/getCustomerDetailsByPhone',
+            success: function (data)
+            {
+                $("#txtCustomerId").val(data.Item1);
+                $("#txtCustomerName").val(data.Item2);
+            },
+            error: function () { console.log('No customer found against the phone number!') }
         });
     }
 
@@ -223,7 +241,7 @@
     fieldset {
         border: 1px solid #ddd !important;
         margin: 0;
-        xmin-width: 0;
+        min-width: 0;
         padding: 10px;
         position: relative;
         border-radius: 4px;
@@ -248,17 +266,18 @@
     <legend class="Lgnd">Mart</legend>
     <div class="container">
         <div class="row">
+            <input name="Customer_Id" type="hidden" id="txtCustomerId" />
             <div class="col-md-4" style="width: 300px !important;">
                 <div class="form-group">
-                    Customer Name:
-                    <input name="Customer_Name" type="text" id="txtCustomerName"
+                    Customer Phone Number:
+                    <input name="Customer_PhoneNumber" type="text" id="txtPhoneNumber"
                            class="form-control" />
                 </div>
             </div>
             <div class="col-md-4" style="width: 300px !important;">
                 <div class="form-group">
-                    Customer Phone Number:
-                    <input name="Customer_PhoneNumber" type="text" id="txtPhoneNumber"
+                    Customer Name:
+                    <input name="Customer_Name" type="text" id="txtCustomerName"
                            class="form-control" />
                 </div>
             </div>

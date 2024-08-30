@@ -12,15 +12,12 @@ namespace MartManagement.BOL
     using System;
     using System.Collections.Generic;
     
-    public partial class Transaction
+    public partial class AspNetUserLogin
     {
-        public int Transaction_Id { get; set; }
-        public Nullable<int> PaymentType_Id { get; set; }
-        public System.DateTime Transaction_Date { get; set; }
-        public decimal Transaction_FinalTotal { get; set; }
-        public Nullable<int> Order_Id { get; set; }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
+        public string UserId { get; set; }
     
-        public virtual Order Order { get; set; }
-        public virtual PaymentType PaymentType { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
