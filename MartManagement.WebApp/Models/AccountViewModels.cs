@@ -109,4 +109,10 @@ namespace MartManagement.WebApp.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class LoginRegisterViewModel
+    {
+        public LoginViewModel LoginViewModel { get; set; }
+        public RegisterViewModel RegisterViewModel { get; set; }
+    }
 }

@@ -13,74 +13,161 @@
             background-repeat: no-repeat;
             background-position: bottom !important;
             min-height: 100vh !important;
+            padding: 0 !important;
         }
 
         table {
             width: -webkit-fill-available !important;
         }
     </style>
+    <link rel="stylesheet" href="~/Content/style.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <span class="noti glyphicon glyphicon-bell"><span class="count">&nbsp;</span></span>
-                    <div class="noti-content">
-                        <div class="noti-top-arrow"></div>
-                        <ul id="notiContent"></ul>
-                    </div>
-                }
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Mart Management", "List", "Item", new { area = "" }, new { @class = "navbar-brand" })
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="sidebar">
+            <div class="logo-details">
+                <i class="bx bxl-c-plus-plus"></i>
+                <span class="logo_name">CodingLab</span>
             </div>
-            <div class="navbar-collapse collapse">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Categorys", "List", "Category")</li>
-                        <li>@Html.ActionLink("Sub Categorys", "List", "SubCategory")</li>
-                        <li>@Html.ActionLink("Items", "List", "Item")</li>
-                        <li>@Html.ActionLink("Stocks", "List", "Stock")</li>
-                        <li>@Html.ActionLink("Payment Type", "List", "PaymentType")</li>
-                        <li>@Html.ActionLink("Customer", "List", "Customer")</li>
-                        <li>@Html.ActionLink("Order", "List", "Order")</li>
-                        @*<li>@Html.ActionLink("Logout", "LogOff", "Account")</li>*@
+            <ul class="nav-links">
+                <li>
+                    <a href="#">
+                        <i class="bx bx-grid-alt"></i>
+                        <span class="link_name">Dashboard</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Category</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class="bx bx-collection"></i>
+                            <span class="link_name">Category</span>
+                        </a>
+                        <i class="bx bxs-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="#">Category</a></li>
+                        <li><a href="#">HTML & CSS</a></li>
+                        <li><a href="#">JavaScript</a></li>
+                        <li><a href="#">PHP & MySQL</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class="bx bx-book-alt"></i>
+                            <span class="link_name">Posts</span>
+                        </a>
+                        <i class="bx bxs-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="#">Posts</a></li>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Login Form</a></li>
+                        <li><a href="#">Card Design</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-pie-chart-alt-2"></i>
+                        <span class="link_name">Analytics</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Analytics</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-line-chart"></i>
+                        <span class="link_name">Chart</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Chart</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class="bx bx-plug"></i>
+                            <span class="link_name">Plugins</span>
+                        </a>
+                        <i class="bx bxs-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="#">Plugins</a></li>
+                        <li><a href="#">UI Face</a></li>
+                        <li><a href="#">Pigments</a></li>
+                        <li><a href="#">Box Icons</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-compass"></i>
+                        <span class="link_name">Explore</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Explore</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-history"></i>
+                        <span class="link_name">History</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">History</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-cog"></i>
+                        <span class="link_name">Setting</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Setting</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="profile-details">
+                        <div class="profile-content">
+                            <img src="~/Content/image/profile.jpg" alt="profileImg" />
+                        </div>
+                        <div class="name-job">
+                            <div class="profile_name">Hi, Ahsan</div>
+                            <div class="job">Admin</div>
+                        </div>
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                         {
                             @Html.AntiForgeryToken()
-                            <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                                </li>
-                                <li>
-                                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-                                </li>
-                            </ul>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                <i class="bx bx-log-out">
+                                </i>
+                            </a>
                         }
-                    </ul>
-                }
-                else
-                {
-                    @Html.Partial("_LoginPartial")
-                }
-            </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>Copyright &copy; @DateTime.Now.Year - Mart Management. All Rights Reserved.  </p>
-        </footer>
-    </div>
-
+    }
+    else
+    {
+        @Html.Partial("_LoginPartial")
+    }
+    <section class="home-section">
+        <div>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>Copyright &copy; @DateTime.Now.Year - Mart Management. All Rights Reserved.  </p>
+            </footer>
+        </div>
+    </section>
+    <script src="~/Content/script.js"></script>
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -151,6 +238,7 @@
 
     @* Add jquery code for Get Notification & setup signalr *@
     <script type="text/javascript">
+
         $(document).ready(function () {
             updateNotification();
             GetCount();
@@ -227,67 +315,6 @@
             sessionStorage.setItem("count", count);
         }
 
-        //$(function () {
-        //    // Click on notification icon for show notification
-        //    $('span.noti').click(function (e) {
-        //        e.stopPropagation();
-        //        $('.noti-content').show();
-        //        var count = 0;
-        //        count = parseInt($('span.count').html()) || 0;
-        //        //only load notification if not already loaded
-        //        if (count > 0) {
-        //            updateNotification();
-        //        }
-        //        $('span.count', this).html('&nbsp;');
-        //    })
-        //    // hide notifications
-        //    $('html').click(function () {
-        //        $('.noti-content').hide();
-        //    })
-        //    // update notification
-        //    function updateNotification() {
-        //        $('#notiContent').empty();
-        //        $('#notiContent').append($('<li>Loading...</li>'));
-        //        $.ajax({
-        //            type: 'GET',
-        //            url: '/Item/GetNotificationItem',
-        //            success: function (response) {
-        //                console.log(response);
-        //                $('#notiContent').empty();
-        //                if (response.length == 0) {
-        //                    $('#notiContent').append($('<li>No data available</li>'));
-        //                }
-        //                //else {
-        //                //    $('#notiContent').append($('<li>Item Stock Alert: ' + response + ' Stock is less than 10</li>'));
-        //                //}
-        //                $.each(response, function (index, value) {
-        //                    $('#notiContent').append($('<li>Item Stock Alert: ' + value.Item_Name + ' is less than (' + value.Item_Stock + ') </li>'));
-        //                });
-        //            },
-        //            error: function (error) {
-        //                console.log(error);
-        //            }
-        //        })
-        //    }
-        //    // update notification count
-        //    function updateNotificationCount() {
-        //        var count = 0;
-        //        count = parseInt($('span.count').html()) || 0;
-        //        count++;
-        //        $('span.count').html(count);
-        //    }
-        //    // signalr js code for start hub and send receive notification
-        //    var notificationHub = $.connection.notificationHub;
-        //    $.connection.hub.start().done(function () {
-        //        console.log('Notification hub started');
-        //    });
-        //    //signalr method for push server message to client
-        //    notificationHub.client.notify = function (message) {
-        //        if (message && message.toLowerCase() == "added") {
-        //            updateNotificationCount();
-        //        }
-        //    }
-        //})
     </script>
 </body>
 </html>

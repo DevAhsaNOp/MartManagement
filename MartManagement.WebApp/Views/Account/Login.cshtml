@@ -1,63 +1,101 @@
 ﻿@using MartManagement.WebApp.Models
-@model LoginViewModel
+@model LoginRegisterViewModel
 @{
     ViewBag.Title = "Log in";
+    Layout = null;
 }
-
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
+@if (!User.Identity.IsAuthenticated)
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mart Management - Login</title>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
+        <link rel="stylesheet" href="~/Content/loginFormStyle.css">
+        <style>
+            .text-danger {
+                color: red !important;
             }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+
+            .btn-submit {
+                margin-top: 10px;
+            }
+
+            .validation-summary-errors {
+                font-size: small !important;
+            }
+
+                .validation-summary-errors ul {
+                    list-style: none;
+                    text-align: left;
+                    padding: 0;
+                }
+        </style>
+    </head>
+    <body>
+        <!-- partial:index.partial.html -->
+        <div class="@ViewBag.ActiveClass" id="container">
+            <div class="form-container sign-up-container">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h1>Create Account</h1>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <span>Use your email for registration</span>
+                    @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @type = "email", @placeholder = "Email" })
+                    @Html.ValidationMessageFor(m => m.RegisterViewModel.Email, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.RegisterViewModel.Password, new { @type = "password", @placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.RegisterViewModel.Password, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.RegisterViewModel.ConfirmPassword, new { @type = "password", @placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.RegisterViewModel.ConfirmPassword, "", new { @class = "text-danger" })
+                    <button type="submit" class="btn-submit">Sign Up</button>
+                }
+            </div>
+            <div class="form-container sign-in-container">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h1>Sign in</h1>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <span>Use a local account to log in.</span>
+                    @Html.TextBoxFor(m => m.LoginViewModel.Email, new { @type = "email", @placeholder = "Email" })
+                    @Html.ValidationMessageFor(m => m.LoginViewModel.Email, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.LoginViewModel.Password, new { @type = "password", @placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.LoginViewModel.Password, "", new { @class = "text-danger" })
+                    <a href="#">Forgot your password?</a>
+                    <button type="submit" class="btn-submit">Sign In</button>
+                }
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <button class="ghost" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Friend!</h1>
+                        <p>Enter your personal details and start journey with us</p>
+                        <button class="ghost" id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+        </footer>
+        <!-- partial -->
+        <script src="~/Content/loginFormScript.js"></script>
+
+    </body>
+</html>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+}
 }
