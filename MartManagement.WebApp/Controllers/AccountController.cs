@@ -75,11 +75,7 @@ namespace MartManagement.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                if (model.RegisterViewModel is null)
-                    ViewBag.ActiveClass = "container";
-                else
-                    ViewBag.ActiveClass = "container right-panel-active";
-
+                ConfigureViewFormClass(model);
                 return View(model);
             }
 
@@ -87,19 +83,39 @@ namespace MartManagement.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = model.RegisterViewModel.Email, Email = model.RegisterViewModel.Email };
+                    var user = new ApplicationUser { UserName = model.RegisterViewModel.UserName, Email = model.RegisterViewModel.Email };
                     var result = await UserManager.CreateAsync(user, model.RegisterViewModel.Password);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var resultRole = await UserManager.AddToRoleAsync(user.Id, "User");
+
+                        if (!resultRole.Succeeded)
+                        {
+                            AddErrors(resultRole);
+                            return View(model);
+                        }
+
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
 
-                        return RedirectToAction("List", "SubCategory");
+                        var body = $"Hey {user.UserName}," +
+                            $"<br><br>Thank you for registering with us." +
+                            $"<br>Please <b>confirm your account</b> by clicking <a href=\"{callbackUrl}\">here</a>." +
+                            $"<br><br>Kind Regards," +
+                            $"<br>❤️ Mart Management Team ❤️";
+
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", body);
+
+                        var message = $"An email has been sent to <b>{user.Email}</b>." +
+                            $" Please <b>confirm your account</b>. If you don't see the email, check your spam folder.";
+
+                        ViewBag.Message = message;
+                        ViewBag.ActiveClass = "container";
+                        return View(model);
                     }
                     ViewBag.ActiveClass = "container right-panel-active";
                     AddErrors(result);
@@ -109,7 +125,23 @@ namespace MartManagement.WebApp.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
-                var result = await SignInManager.PasswordSignInAsync(model.LoginViewModel.Email, model.LoginViewModel.Password, model.LoginViewModel.RememberMe, shouldLockout: false);
+                var user = await UserManager.FindByEmailAsync(model.LoginViewModel.Email);
+
+                if (user is null)
+                {
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ConfigureViewFormClass(model);
+                    return View(model);
+                }
+
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ModelState.AddModelError("", "You need to confirm your email first.");
+                    ConfigureViewFormClass(model);
+                    return View(model);
+                }
+
+                var result = await SignInManager.PasswordSignInAsync(user.UserName, model.LoginViewModel.Password, model.LoginViewModel.RememberMe, shouldLockout: false);
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -121,12 +153,21 @@ namespace MartManagement.WebApp.Controllers
                     case SignInStatus.Failure:
                     default:
                         ModelState.AddModelError("", "Invalid login attempt.");
+                        ConfigureViewFormClass(model);
                         return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private void ConfigureViewFormClass(LoginRegisterViewModel model)
+        {
+            if (model.RegisterViewModel is null)
+                ViewBag.ActiveClass = "container";
+            else
+                ViewBag.ActiveClass = "container right-panel-active";
         }
 
         //

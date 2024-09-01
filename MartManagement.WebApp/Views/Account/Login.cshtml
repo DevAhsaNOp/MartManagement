@@ -23,6 +23,20 @@
                 margin-top: 10px;
             }
 
+            .alert {
+                position: relative;
+                padding: .75rem 1.25rem;
+                margin-bottom: 2rem;
+                border: 1px solid transparent;
+                border-radius: .25rem;
+            }
+
+            .alert-primary {
+                color: #004085;
+                background-color: #ccffe0;
+                border-color: #9af3bd;
+            }
+
             .validation-summary-errors {
                 font-size: small !important;
             }
@@ -45,11 +59,13 @@
                     <hr />
                     @Html.ValidationSummary("", new { @class = "text-danger" })
                     <span>Use your email for registration</span>
+                    @Html.TextBoxFor(m => m.RegisterViewModel.UserName, new { @type = "text", @placeholder = "Username" })
+                    @Html.ValidationMessageFor(m => m.RegisterViewModel.UserName, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @type = "email", @placeholder = "Email" })
                     @Html.ValidationMessageFor(m => m.RegisterViewModel.Email, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.RegisterViewModel.Password, new { @type = "password", @placeholder = "Password" })
                     @Html.ValidationMessageFor(m => m.RegisterViewModel.Password, "", new { @class = "text-danger" })
-                    @Html.PasswordFor(m => m.RegisterViewModel.ConfirmPassword, new { @type = "password", @placeholder = "Password" })
+                    @Html.PasswordFor(m => m.RegisterViewModel.ConfirmPassword, new { @type = "password", @placeholder = "Confirm Password" })
                     @Html.ValidationMessageFor(m => m.RegisterViewModel.ConfirmPassword, "", new { @class = "text-danger" })
                     <button type="submit" class="btn-submit">Sign Up</button>
                 }
@@ -57,6 +73,12 @@
             <div class="form-container sign-in-container">
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                 {
+                    if (ViewBag.Message != null)
+                    {
+                        <span class="alert alert-primary" role="alert">
+                            @Html.Raw(ViewBag.Message)
+                        </span>
+                    }
                     @Html.AntiForgeryToken()
                     <h1>Sign in</h1>
                     <hr />

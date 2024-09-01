@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
+﻿using MartManagement.WebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using MartManagement.WebApp.Models;
+using System;
+using System.Configuration;
+using System.Net.Mail;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MartManagement.WebApp
 {
@@ -18,8 +16,44 @@ namespace MartManagement.WebApp
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var emailResponse = SendEmail(message.Destination, message.Subject, message.Body);
+
+            if (emailResponse.Contains("Failed"))
+                return Task.FromResult(0);
+            else
+                return Task.FromResult(1);
+        }
+
+        public string SendEmail(string email, string subject, string body)
+        {
+            try
+            {
+                var userEmail = ConfigurationManager.AppSettings["Email"];
+                var userPassword = ConfigurationManager.AppSettings["Password"];
+
+                MailMessage mail = new MailMessage();
+                mail.To.Add(email);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+                mail.From = new MailAddress("devtestingofficial@gmail.com", "Mart Management Official");
+
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    Credentials = new System.Net.NetworkCredential(userEmail, userPassword)
+                };
+                smtp.Send(mail);
+
+                return "Email sent successfully!";
+            }
+            catch (Exception ex)
+            {
+                return $"Failed to send email: {ex.Message}";
+            }
         }
     }
 
@@ -40,7 +74,7 @@ namespace MartManagement.WebApp
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -81,7 +115,7 @@ namespace MartManagement.WebApp
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
