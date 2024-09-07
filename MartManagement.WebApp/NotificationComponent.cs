@@ -1,12 +1,10 @@
 ﻿using MartManagement.BOL;
 using MartManagement.BOL.ValidationClasses;
-using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 
 namespace MartManagement.WebApp
 {
@@ -52,8 +50,8 @@ namespace MartManagement.WebApp
                 sqlDep.OnChange -= sqlDep_OnChange;
 
                 //from here we will send notification message to client
-                var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-                notificationHub.Clients.All.notify("added");
+                NotificationHub.Send();
+
                 //re-register notification
                 RegisterNotification(DateTime.Now);
             }
