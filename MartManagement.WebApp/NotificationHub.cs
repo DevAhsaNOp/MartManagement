@@ -7,7 +7,7 @@ namespace MartManagement.WebApp
         public static void Send()
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            context.Clients.All.displayStatus("Test message from server");
+            context.Clients.All.displayStatus("added");
         }
     }
 }

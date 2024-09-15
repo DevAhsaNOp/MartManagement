@@ -271,8 +271,9 @@
                 .done(function () {
                     var notificationHub = $.connection.notificationHub;
                     console.log('SignalR connection established.');
+                    console.log(notificationHub);
                     notificationHub.client.displayStatus = function (message) {
-                        console.log('Received message: ' + message);
+                        console.log('Received message:');
                         if (message.toLowerCase() == "added") {
                             updateNotificationCount();
                         }
