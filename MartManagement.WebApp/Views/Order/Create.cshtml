@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
     var CustomerName;
     var PhoneNumber;
@@ -68,7 +68,7 @@
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             //data: JSON.stringify(objOrderViewModel, objCustomerViewModel),
-            data: JSON.stringify({ objOrderViewModel: objOrderViewModel, objCustomerViewModel: objCustomerViewModel}),
+            data: JSON.stringify({ objOrderViewModel: objOrderViewModel, objCustomerViewModel: objCustomerViewModel }),
             url: '/Order/Create',
             success: function (data) { alert(data) },
             error: function () { alert('There is some problem to get the unit price.') }
@@ -88,11 +88,10 @@
         $("#txtPaymentTotal").val(parseFloat(0.00).toFixed(2));
         $("#txtBalance").val(parseFloat(0.00).toFixed(2));
         $("#PaymentType").val(0);
-
     }
 
-
     function AddToTheItemList() {
+        var customerName = $("#txtCustomerName").val();
         var totalItemList = $("#tblRestaurantItemList");
         var UnitPrice = $("#txtUnitPrice").val();
         var Quantity = $("#txtQuantity").val();
@@ -100,18 +99,55 @@
         var ItemId = $("#Item").val();
         var ItemName = $("#Item option:selected").text();
         var Total = (UnitPrice * Quantity) - Discount;
-        if (UnitPrice <= 0) {
+
+        if (UnitPrice <= 0 || ItemId <= 0) {
             alert("Please select the Item!");
         }
+        else if (Quantity <= 0) {
+            alert("Please enter the quantity!");
+        }
+        else if (customerName == "" || customerName == null || customerName == undefined) {
+            alert("Please enter the customer name!");
+        }
         else {
-            var ItemList = "<tr><td hidden> " + ItemId + "</td><td>"
-                + ItemName + "</td><td>" +
-                parseFloat(UnitPrice).toFixed(2) + "</td><td>" +
-                parseFloat(Quantity).toFixed(2) + "</td><td>" +
-                parseFloat(Discount).toFixed(2) + "</td><td>"
-                + parseFloat(Total).toFixed(2) + "</td> <td> <input style=\"margin-top:5px;\" type='button' value='Remove' name='remove' class='btn btn-danger' onclick='RemoveItem(this)'/>" + "</td></tr>";
+            // Check if the item already exists in the list
+            var existingRow = null;
 
-            totalItemList.append(ItemList);
+            $("#tblRestaurantItemList").find("tr:gt(0)").each(function () {
+                var currentRowItemId = $(this).find("td:eq(0)").text();
+                var curId = parseInt(currentRowItemId);
+                var itemId = parseInt(ItemId);
+                if (curId === itemId) {
+                    existingRow = $(this);
+                    return false; // Break the loop
+                }
+            });
+
+            if (existingRow) {
+                // Update existing row: quantity, discount, and total
+                var currentQuantity = parseFloat(existingRow.find("td:eq(3)").text());
+                var currentDiscount = parseFloat(existingRow.find("td:eq(4)").text());
+                var currentTotal = parseFloat(existingRow.find("td:eq(5)").text());
+
+                var newQuantity = currentQuantity + parseFloat(Quantity);
+                var newDiscount = currentDiscount + parseFloat(Discount);
+                var newTotal = (UnitPrice * newQuantity) - newDiscount;
+
+                existingRow.find("td:eq(3)").text(newQuantity.toFixed(2));
+                existingRow.find("td:eq(4)").text(newDiscount.toFixed(2));
+                existingRow.find("td:eq(5)").text(newTotal.toFixed(2));
+            } else {
+                // Add new row if the item doesn't exist
+                var ItemList = "<tr><td hidden> " + ItemId + "</td><td>"
+                    + ItemName + "</td><td>" +
+                    parseFloat(UnitPrice).toFixed(2) + "</td><td>" +
+                    parseFloat(Quantity).toFixed(2) + "</td><td>" +
+                    parseFloat(Discount).toFixed(2) + "</td><td>"
+                    + parseFloat(Total).toFixed(2) + "</td> <td> <input style=\"margin-top:5px;\" type='button' value='Remove' name='remove' class='btn btn-danger' onclick='RemoveItem(this)'/>" + "</td></tr>";
+
+                totalItemList.append(ItemList);
+            }
+
             ResetItems();
             EnableDisableCheckOut();
         }
@@ -181,8 +217,7 @@
             contentType: 'application/json; charset=utf-8',
             data: { phoneNumber: phoneNumber },
             url: '/Order/getCustomerDetailsByPhone',
-            success: function (data)
-            {
+            success: function (data) {
                 $("#txtCustomerId").val(data.Item1);
                 $("#txtCustomerName").val(data.Item2);
             },
@@ -253,18 +288,18 @@
     .Lgnd {
         font-size: 14px !important;
         font-weight: bold !important;
-        margin-bottom: 0px !important;
         width: 35% !important;
         border: 1px solid #ddd !important;
         border-radius: 4px !important;
         padding: 5px 5px 5px 10px !important;
         background-color: #ffffff !important;
+        margin: 10px 0 !important;
     }
 </style>
 
 <fieldset>
     <legend class="Lgnd">Mart</legend>
-    <div class="container">
+    <div class="container" style="margin-bottom: 10px !important">
         <div class="row">
             <input name="Customer_Id" type="hidden" id="txtCustomerId" />
             <div class="col-md-4" style="width: 300px !important;">
@@ -304,7 +339,7 @@
     <legend class="Lgnd">
         Mart Items:
     </legend>
-    <div class="container">
+    <div class="container" style="margin-bottom: 10px !important">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -313,7 +348,6 @@
                   new { @class = "form-control" })
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="form-group">
                     Unit Price :
@@ -321,7 +355,6 @@
                            value="0.00" name="UnitPrice" class="form-control" />
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="form-group">
                     Quantity:
@@ -331,7 +364,6 @@
             </div>
         </div>
         <div class="row">
-
             <div class="col-md-4">
                 <div class="form-group">
                     Discount:
@@ -339,7 +371,6 @@
                            value="0.00" name="Discount" class="form-control" />
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="form-group">
                     Total:
@@ -359,7 +390,7 @@
 
 <fieldset>
     <legend class="Lgnd">Mart Listed items</legend>
-    <table style="width:100%" id="tblRestaurantItemList">
+    <table style="width:100%; margin:10px;" id="tblRestaurantItemList">
         <thead>
             <tr>
                 <th hidden>
@@ -389,7 +420,7 @@
 </fieldset>
 
 <div style="margin-top:30px; display: flex; justify-content:right;">
-    <input style="margin-right: 10px;" data-backdrop="static" data-keydrop="false" data-toggle="modal" data-target="#divPayment" type="button"
+    <input style="margin-right: 10px;" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-toggle="modal" data-bs-target="#divPayment" type="button"
            value="Check Out" name="CheckOut" id="btnCheckOut" class="btn btn-primary" />
     <input type="button" value="Reset" name="Reset" id="btnReset" class="btn btn-danger" />
 </div>
@@ -399,26 +430,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Payment</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-6">
                             Payment Total:
                             <input style="text-align:right" type="text" id="txtPaymentTotal" readonly="readonly" value="0.00" class="form-control" />
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-6">
                             Payment Amount:
                             <input style="text-align:right" type="text" id="txtPaymentAmount" value="0.00" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-6">
                             Return Total:
                             <input style="text-align:right" type="text" id="txtReturnTotal" value="0.00" class="form-control" />
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-6">
                             Balance Amount:
                             <input style="text-align:right" type="text" id="txtBalance" readonly="readonly" value="0.00" class="form-control" />
                         </div>
@@ -427,7 +458,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnPayment" class="btn btn-success" value="Payment">Payment</button>
-                <button id="btnClose" data-dismiss="modal" class="btn btn-danger" value="Close">Close</button>
+                <button id="btnClose" data-bs-dismiss="modal" class="btn btn-danger" value="Close">Close</button>
             </div>
         </div>
     </div>
