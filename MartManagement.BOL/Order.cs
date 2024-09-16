@@ -11,7 +11,8 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,12 +21,23 @@ namespace MartManagement.BOL
             this.OrderDetails = new HashSet<OrderDetail>();
             this.Transactions = new HashSet<Transaction>();
         }
-    
+
+        [Display(Name = "Order Id")]
         public int Order_Id { get; set; }
+
+        [Display(Name = "Customer Id")]
         public Nullable<int> Customer_Id { get; set; }
+
+        [Display(Name = "Order Number")]
         public string Order_Number { get; set; }
+
+        [Display(Name = "Order Date")]
         public System.DateTime Order_Date { get; set; }
+
+        [Display(Name = "Order Final Total")]
         public decimal Order_FinalTotal { get; set; }
+
+        [Display(Name = "Payment Type Id")]
         public Nullable<int> PaymentType_Id { get; set; }
     
         public virtual Customer Customer { get; set; }

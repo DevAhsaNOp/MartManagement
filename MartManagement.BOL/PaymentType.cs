@@ -11,7 +11,8 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PaymentType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,8 +21,12 @@ namespace MartManagement.BOL
             this.Orders = new HashSet<Order>();
             this.Transactions = new HashSet<Transaction>();
         }
-    
+
+        [Display(Name = "Payment Type Id")]
         public int PaymentType_Id { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Payment Type Name")]
         public string PaymentType_Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using MartManagement.BLL.Repositories;
 using MartManagement.BOL;
-using System.Collections.Generic;
-using MartManagement.BLL.Repositories;
+using System;
+using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {

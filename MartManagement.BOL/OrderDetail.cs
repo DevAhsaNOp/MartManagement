@@ -11,15 +11,27 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderDetail
     {
+        [Display(Name = "Order Detail Id")]
         public int OrderDetail_Id { get; set; }
+
+        [Display(Name = "Order Id")]
         public Nullable<int> Order_Id { get; set; }
+
+        [Display(Name = "Item Id")]
         public Nullable<int> Item_Id { get; set; }
+
+        [Display(Name = "Order Detail Unit Price")]
         public decimal OrderDetail_UnitPrice { get; set; }
+
+        [Display(Name = "Order Detail Quantity")]
         public int OrderDetail_Quantity { get; set; }
         public Nullable<decimal> OrderDetail_Discount { get; set; }
+
+        [Display(Name = "Order Detail Final Total")]
         public decimal OrderDetail_FinalTotal { get; set; }
     
         public virtual Item Item { get; set; }

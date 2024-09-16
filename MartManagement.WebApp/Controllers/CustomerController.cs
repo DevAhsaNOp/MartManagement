@@ -1,9 +1,6 @@
 ﻿using MartManagement.BLL.Repositories;
 using MartManagement.BOL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
@@ -35,7 +32,7 @@ namespace MartManagement.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var val= RepoObj.InsertModel(customer);
+                    var val = RepoObj.InsertModel(customer);
                     if (val > 0)
                     {
                         TempData["SuccessMsg"] = "Customer Added Successfully!";

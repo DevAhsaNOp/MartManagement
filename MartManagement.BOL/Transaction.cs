@@ -11,13 +11,23 @@ namespace MartManagement.BOL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Transaction
     {
+        [Display(Name = "Transaction Id")]
         public int Transaction_Id { get; set; }
+
+        [Display(Name = "Payment Type Id")]
         public Nullable<int> PaymentType_Id { get; set; }
+
+        [Display(Name = "Transaction Date")]
         public System.DateTime Transaction_Date { get; set; }
+
+        [Display(Name = "Transaction Final Total")]
         public decimal Transaction_FinalTotal { get; set; }
+
+        [Display(Name = "Order Id")]
         public Nullable<int> Order_Id { get; set; }
     
         public virtual Order Order { get; set; }
