@@ -1,4 +1,5 @@
 ﻿using MartManagement.BOL;
+using MartManagement.BOL.ModelClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,35 @@ namespace MartManagement.DAL.DBLayer
         {
             _context.Entry(model).State = System.Data.Entity.EntityState.Modified;
             Save();
+        }
+
+        public DashboardResponse GetDashboardDetails()
+        {
+            var customersCount = _context.Customers.Count();
+            var ordersCount = _context.Orders.Count();
+            var itemsCount = _context.Items.Count();
+            var categoriesCount = _context.Categories.Count();
+            var allOrders = _context.Orders.ToList();
+            var ordersPerDay = allOrders.GroupBy(x => x.Order_Date.Date)
+                .Select(x => new { Date = x.Key, Count = x.Count() })
+                .OrderBy(x => x.Date)
+                .Select(x => x.Count)
+                .ToList();
+            var stocksPerDay = _context.Stocks.GroupBy(x => x.Stock_Id)
+                .Select(x => new { StockID = x.Key, Count = x.Count() })
+                .OrderBy(x => x.StockID)
+                .Select(x => x.Count)
+                .ToList();
+
+            return new DashboardResponse
+            {
+                TotalCategories = categoriesCount,
+                TotalCustomers = customersCount,
+                TotalItems = itemsCount,
+                TotalOrders = ordersCount,
+                OrdersPerDay = ordersPerDay,
+                StocksPerDay = stocksPerDay
+            };
         }
     }
 }

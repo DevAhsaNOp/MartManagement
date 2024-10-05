@@ -1,5 +1,5 @@
 ﻿using MartManagement.BOL;
-using MartManagement.BOL.ValidationClasses;
+using MartManagement.BOL.ModelClasses;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

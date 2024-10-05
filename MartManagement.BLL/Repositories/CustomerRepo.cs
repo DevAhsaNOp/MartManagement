@@ -1,4 +1,5 @@
 ﻿using MartManagement.BOL;
+using MartManagement.BOL.ModelClasses;
 using MartManagement.DAL.DBLayer;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,11 @@ namespace MartManagement.BLL.Repositories
         public void UpdateModel(Customer model)
         {
             dbObj.UpdateModel(model);
+        }
+
+        public DashboardResponse GetDashboardDetails()
+        {
+            return dbObj.GetDashboardDetails();
         }
     }
 }

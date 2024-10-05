@@ -92,6 +92,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ModelClasses\DashboardResponse.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -114,8 +115,7 @@
     <Compile Include="Transaction.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ValidationClasses\CategoryValidation.cs" />
-    <Compile Include="ValidationClasses\ItemCls.cs" />
+    <Compile Include="ModelClasses\ItemCls.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

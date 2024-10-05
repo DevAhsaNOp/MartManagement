@@ -1,0 +1,133 @@
+﻿@model MartManagement.BOL.ModelClasses.DashboardResponse
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<h2>Dashboard</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <h3>Welcome back @User.Identity.Name to Mart Management System</h3>
+}
+
+<div class="row">
+    <div class="col-3">
+        <div class="card bg-light">
+            <div class="card-header d-flex justify-content-between align-items-center fw-bold">
+                <span>Total Customers</span>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <span class="card-text fs-4">@Model.TotalCustomers</span>
+                <i class="bi bi-people fs-3"></i>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-sm btn-outline-dark w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <div class="card bg-secondary text-white">
+            <div class="card-header d-flex justify-content-between align-items-center fw-bold">
+                <span>Total Orders</span>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <span class="card-text fs-4">@Model.TotalOrders</span>
+                <i class="bi bi-cart fs-3"></i>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-sm btn-outline-light w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <div class="card bg-info text-white">
+            <div class="card-header d-flex justify-content-between align-items-center fw-bold">
+                <span>Total Items</span>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <span class="card-text fs-4">@Model.TotalItems</span>
+                <i class="bi bi-box-seam fs-3"></i>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-sm btn-outline-light w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <div class="card bg-primary text-white">
+            <div class="card-header d-flex justify-content-between align-items-center fw-bold">
+                <span>Total Categories</span>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <span class="card-text fs-4">@Model.TotalCategories</span>
+                <i class="bi bi-tags fs-3"></i>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-sm btn-outline-light w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h3>Orders by Day</h3>
+        <canvas id="ordersChart" width="250" height="100"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h3>Stock List by Day</h3>
+        <canvas id="stocksChart" width="250" height="100"></canvas>
+    </div>
+</div>
+<script>
+    // Orders by Day Chart
+    var ctxOrders = document.getElementById('ordersChart').getContext('2d');
+    var ordersChart = new Chart(ctxOrders, {
+        type: 'line', // Type of chart (line, bar, pie, etc.)
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // X-axis labels (days)
+            datasets: [{
+                label: 'Orders', // Chart label
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrdersPerDay)), // Example data for orders per day
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // Chart fill color
+                borderColor: 'rgba(54, 162, 235, 1)', // Line color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true // Start Y-axis at 0
+                }
+            }
+        }
+    });
+
+    // Stocks List by Day Chart
+    var ctxStocks = document.getElementById('stocksChart').getContext('2d');
+    var stocksChart = new Chart(ctxStocks, {
+        type: 'bar', // Type of chart (bar for stocks)
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // X-axis labels (days)
+            datasets: [{
+                label: 'Stock List', // Chart label
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.StocksPerDay)), // Example data for stocks per day
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar color
+                borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true // Start Y-axis at 0
+                }
+            }
+        }
+    });
+</script>
