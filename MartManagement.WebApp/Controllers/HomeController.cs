@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace MartManagement.WebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         CustomerRepo RepoObj;

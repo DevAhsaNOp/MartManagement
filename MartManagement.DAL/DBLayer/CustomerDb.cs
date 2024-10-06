@@ -71,13 +71,50 @@ namespace MartManagement.DAL.DBLayer
             var ordersPerDay = allOrders.GroupBy(x => x.Order_Date.Date)
                 .Select(x => new { Date = x.Key, Count = x.Count() })
                 .OrderBy(x => x.Date)
-                .Select(x => x.Count)
+                .Select(x => new OrdersPerDayResponse
+                {
+                    Date = x.Date.ToString("dd-MM-yyyy"),
+                    Count = x.Count
+                })
                 .ToList();
-            var stocksPerDay = _context.Stocks.GroupBy(x => x.Stock_Id)
-                .Select(x => new { StockID = x.Key, Count = x.Count() })
-                .OrderBy(x => x.StockID)
-                .Select(x => x.Count)
+
+            var currentStocksDetails = _context.Stocks.GroupBy(x => x.Item.Item_Name)
+                .Select(x => new { ItemName = x.Key, Count = x.Count() })
+                .OrderBy(x => x.ItemName)
+                .Select(x => new ItemWiseStockResponse
+                {
+                    ItemName = x.ItemName,
+                    Count = x.Count
+                })
                 .ToList();
+
+            var dayWiseItemsSales = allOrders.SelectMany(x => x.OrderDetails)
+                .GroupBy(x => new { x.Order.Order_Date.Date, x.Item.Item_Name })
+                .Select(x => new { x.Key.Date.Date, ItemName = x.Key.Item_Name, Count = x.Sum(y => y.OrderDetail_Quantity) })
+                .OrderBy(x => x.Date.Date)
+                .ThenBy(x => x.ItemName)
+                .ToList();
+
+            var groupedData = dayWiseItemsSales
+                .GroupBy(x => x.ItemName)
+                .Select(g => new ItemSalesResponse
+                {
+                    ItemName = g.Key,
+                    SalesByDay = g
+                    .Select(s => new SalesByDayResponse
+                    {
+                        Date = s.Date.Date.ToString("dd-MM-yyyy"),
+                        Count = s.Count
+                    }).ToList()
+                })
+                .ToList();
+
+            var uniqueDates = dayWiseItemsSales
+                .Select(x => x.Date.Date.ToString("dd-MM-yyyy"))
+                .Distinct()
+                .OrderBy(date => date)
+                .ToList();
+
 
             return new DashboardResponse
             {
@@ -86,7 +123,12 @@ namespace MartManagement.DAL.DBLayer
                 TotalItems = itemsCount,
                 TotalOrders = ordersCount,
                 OrdersPerDay = ordersPerDay,
-                StocksPerDay = stocksPerDay
+                CurrentStocksDetails = currentStocksDetails,
+                DayWiseItemsSales = new ItemSalesByDayResponse
+                {
+                    ItemSales = groupedData,
+                    UniqueDates = uniqueDates
+                }
             };
         }
     }

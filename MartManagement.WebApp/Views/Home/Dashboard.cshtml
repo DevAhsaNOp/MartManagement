@@ -10,7 +10,7 @@
 <h2>Dashboard</h2>
 @if (User.Identity.IsAuthenticated)
 {
-    <h3>Welcome back @User.Identity.Name to Mart Management System</h3>
+    <h3 class="text-center text-decoration-underline my-3">Welcome back <b>@User.Identity.Name</b> to Mart Management System</h3>
 }
 
 <div class="row">
@@ -80,20 +80,30 @@
         <canvas id="ordersChart" width="250" height="100"></canvas>
     </div>
     <div class="col-md-6">
-        <h3>Stock List by Day</h3>
+        <h3>Current Stock Details</h3>
         <canvas id="stocksChart" width="250" height="100"></canvas>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h3>Day Wise Items Sales</h3>
+        <canvas id="salesChart" width="250" height="100"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h3>Current Stock Details</h3>
+        <canvas id="stocksssChart" width="250" height="100"></canvas>
     </div>
 </div>
 <script>
     // Orders by Day Chart
     var ctxOrders = document.getElementById('ordersChart').getContext('2d');
     var ordersChart = new Chart(ctxOrders, {
-        type: 'line', // Type of chart (line, bar, pie, etc.)
+        type: 'bar', // Type of chart (line, bar, pie, etc.)
         data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // X-axis labels (days)
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrdersPerDay.Select(x => x.Date))), // X-axis labels (days)
             datasets: [{
                 label: 'Orders', // Chart label
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrdersPerDay)), // Example data for orders per day
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrdersPerDay.Select(x => x.Count))), // Example data for orders per day
                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Chart fill color
                 borderColor: 'rgba(54, 162, 235, 1)', // Line color
                 borderWidth: 1
@@ -113,10 +123,10 @@
     var stocksChart = new Chart(ctxStocks, {
         type: 'bar', // Type of chart (bar for stocks)
         data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // X-axis labels (days)
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CurrentStocksDetails.Select(x => x.ItemName))), // X-axis labels (days)
             datasets: [{
                 label: 'Stock List', // Chart label
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.StocksPerDay)), // Example data for stocks per day
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CurrentStocksDetails.Select(x => x.Count))), // Example data for stocks per day
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar color
                 borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
                 borderWidth: 1
@@ -130,4 +140,44 @@
             }
         }
     });
+
+    // Sales by Day Chart
+  var ctxSales = document.getElementById('salesChart').getContext('2d');
+
+    // Unique dates (x-axis labels)
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.DayWiseItemsSales.UniqueDates));
+
+    // Data grouped by item
+    var groupedSalesData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.DayWiseItemsSales.ItemSales));
+
+    // Prepare datasets for each item
+    var datasets = groupedSalesData.map(itemGroup => {
+        return {
+            label: itemGroup.ItemName,
+            data: labels.map(date => {
+                // Find sales count for the current date, or return 0 if not present
+                var saleForDate = itemGroup.SalesByDay.find(sale => sale.Date === date);
+                return saleForDate ? saleForDate.Count : 0;
+            }),
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Customize per item if needed
+            borderColor: 'rgba(255, 99, 132, 1)', // Customize per item if needed
+            borderWidth: 1
+        };
+    });
+
+    var salesChart = new Chart(ctxSales, {
+        type: 'bar', // Type of chart (line for sales)
+        data: {
+            labels: labels, // X-axis labels (unique dates)
+            datasets: datasets // Multiple datasets for each item
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true // Start Y-axis at 0
+                }
+            }
+        }
+    });
+
 </script>

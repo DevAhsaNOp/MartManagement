@@ -56,7 +56,7 @@ namespace MartManagement.WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Create", "Order");
+                return RedirectToAction("Dashboard", "Home");
             }
 
             if (ViewBag.ActiveClass is null)
@@ -220,7 +220,7 @@ namespace MartManagement.WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Create", "Order");
+                return RedirectToAction("Dashboard", "Home");
             }
 
             return View();
@@ -247,7 +247,7 @@ namespace MartManagement.WebApp.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("List", "SubCategory");
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 AddErrors(result);
             }
@@ -533,7 +533,7 @@ namespace MartManagement.WebApp.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("List", "SubCategory");
+            return RedirectToAction("Dashboard", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

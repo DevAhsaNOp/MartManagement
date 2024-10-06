@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <style>
-        body {
+/*        body {
             background-image: url('../../wave.svg') !important;
             background-size: auto !important;
             background-repeat: no-repeat;
@@ -15,7 +15,7 @@
             min-height: 100vh !important;
             padding: 0 !important;
         }
-
+*/
         table {
             width: -webkit-fill-available !important;
         }
@@ -41,13 +41,10 @@
                 </div>*@
             <ul class="nav-links">
                 <li>
-                    <a href="#">
+                    <a href="@Url.Action("Dashboard","Home")">
                         <i class="bx bx-grid-alt"></i>
                         <span class="link_name">Dashboard</span>
                     </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Category</a></li>
-                    </ul>
                 </li>
                 <li>
                     <div class="iocn-link">
